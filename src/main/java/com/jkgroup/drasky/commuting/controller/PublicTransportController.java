@@ -11,8 +11,6 @@ public class PublicTransportController {
 
     @PostMapping("/intent/when-bus-arrives")
     public Object getBook(@RequestBody Object request) {
-        var response = new Object();
-
-        return response;
+        return new Object();
     }
 }
