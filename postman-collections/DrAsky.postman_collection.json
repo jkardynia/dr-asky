@@ -1,0 +1,40 @@
+{
+	"info": {
+		"_postman_id": "30f3e14e-28f3-478a-92ae-d57dcb5acaa0",
+		"name": "DrAsky",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "when-bus-arrives",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"responseId\": \"ea3d77e8-ae27-41a4-9e1d-174bd461b68c\",\r\n  \"session\": \"projects/your-agents-project-id/agent/sessions/88d13aa8-2999-4f71-b233-39cbf3a824a0\",\r\n  \"queryResult\": {\r\n    \"queryText\": \"user's original query to your agent\",\r\n    \"parameters\": {\r\n      \"destination\": \"Cracow\"\r\n    },\r\n    \"allRequiredParamsPresent\": true,\r\n    \"fulfillmentText\": \"Text defined in Dialogflow's console for the intent that was matched\",\r\n    \"fulfillmentMessages\": [\r\n      {\r\n        \"text\": {\r\n          \"text\": [\r\n            \"Text defined in Dialogflow's console for the intent that was matched\"\r\n          ]\r\n        }\r\n      }\r\n    ],\r\n    \"outputContexts\": [\r\n      {\r\n        \"name\": \"projects/your-agents-project-id/agent/sessions/88d13aa8-2999-4f71-b233-39cbf3a824a0/contexts/generic\",\r\n        \"lifespanCount\": 5,\r\n        \"parameters\": {\r\n          \"param\": \"param value\"\r\n        }\r\n      }\r\n    ],\r\n    \"intent\": {\r\n      \"name\": \"projects/your-agents-project-id/agent/intents/29bcd7f8-f717-4261-a8fd-2d3e451b8af8\",\r\n      \"displayName\": \"Matched Intent Name\"\r\n    },\r\n    \"intentDetectionConfidence\": 1,\r\n    \"diagnosticInfo\": {},\r\n    \"languageCode\": \"en\"\r\n  },\r\n  \"originalDetectIntentRequest\": {}\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/commuting/public-transport/intent/when-bus-arrives",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"commuting",
+						"public-transport",
+						"intent",
+						"when-bus-arrives"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
