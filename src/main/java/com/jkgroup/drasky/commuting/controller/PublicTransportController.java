@@ -15,7 +15,7 @@ public class PublicTransportController {
     public Object whenBusArrives(@RequestBody DialogFlowRequest request) {
         return DialogFlowResponse
                 .builder()
-                .fulfillmentText("Hello world! You asked for " + request.getQueryResult().getParameters().get("destination"))
+                .fulfillmentText("Hello world! You asked for " + request.getQueryResult().getParameters().get("destination").get(0))
                 .build();
     }
 }

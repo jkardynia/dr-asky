@@ -8,7 +8,7 @@ import java.util.Map;
 @Getter
 public class QueryResultDto {
     private String queryText;
-    private Map<String, String> parameters;
+    private Map<String, List<String>> parameters;
     private Boolean allRequiredParamsPresent;
     private String fulfillmentText;
     private List<FulfillmentMessageDto> fulfillmentMessages;
