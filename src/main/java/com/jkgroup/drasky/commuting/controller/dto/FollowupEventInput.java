@@ -1,4 +1,4 @@
-package com.jkgroup.drasky.commuting.dto;
+package com.jkgroup.drasky.commuting.controller.dto;
 
 import lombok.Builder;
 import lombok.Getter;
