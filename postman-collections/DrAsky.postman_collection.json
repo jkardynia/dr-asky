@@ -6,50 +6,332 @@
 	},
 	"item": [
 		{
-			"name": "when-bus-arrives",
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "admin",
-							"type": "string"
+			"name": "intents",
+			"item": [
+				{
+					"name": "when-bus-arrives",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
 						},
-						{
-							"key": "username",
-							"value": "admin",
-							"type": "string"
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"responseId\": \"ea3d77e8-ae27-41a4-9e1d-174bd461b68c\",\n  \"session\": \"projects/your-agents-project-id/agent/sessions/88d13aa8-2999-4f71-b233-39cbf3a824a0\",\n  \"queryResult\": {\n    \"queryText\": \"user's original query to your agent\",\n    \"parameters\": {\n      \"destination\": [\"Cracow\"]\n    },\n    \"allRequiredParamsPresent\": true,\n    \"fulfillmentText\": \"Text defined in Dialogflow's console for the intent that was matched\",\n    \"fulfillmentMessages\": [\n      {\n        \"text\": {\n          \"text\": [\n            \"Text defined in Dialogflow's console for the intent that was matched\"\n          ]\n        }\n      }\n    ],\n    \"outputContexts\": [\n      {\n        \"name\": \"projects/your-agents-project-id/agent/sessions/88d13aa8-2999-4f71-b233-39cbf3a824a0/contexts/generic\",\n        \"parameters\": \n          {\"param\": \"param value\"}\n        \n      }\n    ],\n    \"intent\": {\n      \"name\": \"projects/your-agents-project-id/agent/intents/29bcd7f8-f717-4261-a8fd-2d3e451b8af8\",\n      \"displayName\": \"Matched Intent Name\"\n    },\n    \"intentDetectionConfidence\": 1,\n    \"diagnosticInfo\": {},\n    \"languageCode\": \"en\"\n  },\n  \"originalDetectIntentRequest\": {}\n}"
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/commuting/public-transport/intent/when-bus-arrives",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"commuting",
+								"public-transport",
+								"intent",
+								"when-bus-arrives"
+							]
 						}
-					]
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"responseId\": \"ea3d77e8-ae27-41a4-9e1d-174bd461b68c\",\n  \"session\": \"projects/your-agents-project-id/agent/sessions/88d13aa8-2999-4f71-b233-39cbf3a824a0\",\n  \"queryResult\": {\n    \"queryText\": \"user's original query to your agent\",\n    \"parameters\": {\n      \"destination\": [\"Cracow\"]\n    },\n    \"allRequiredParamsPresent\": true,\n    \"fulfillmentText\": \"Text defined in Dialogflow's console for the intent that was matched\",\n    \"fulfillmentMessages\": [\n      {\n        \"text\": {\n          \"text\": [\n            \"Text defined in Dialogflow's console for the intent that was matched\"\n          ]\n        }\n      }\n    ],\n    \"outputContexts\": [\n      {\n        \"name\": \"projects/your-agents-project-id/agent/sessions/88d13aa8-2999-4f71-b233-39cbf3a824a0/contexts/generic\",\n        \"parameters\": \n          {\"param\": \"param value\"}\n        \n      }\n    ],\n    \"intent\": {\n      \"name\": \"projects/your-agents-project-id/agent/intents/29bcd7f8-f717-4261-a8fd-2d3e451b8af8\",\n      \"displayName\": \"Matched Intent Name\"\n    },\n    \"intentDetectionConfidence\": 1,\n    \"diagnosticInfo\": {},\n    \"languageCode\": \"en\"\n  },\n  \"originalDetectIntentRequest\": {}\n}"
-				},
-				"url": {
-					"raw": "localhost:8080/commuting/public-transport/intent/when-bus-arrives",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"commuting",
-						"public-transport",
-						"intent",
-						"when-bus-arrives"
-					]
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
+		},
+		{
+			"name": "manage",
+			"item": [
+				{
+					"name": "/manage",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{HOST}}:{{PORT}}/manage",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"manage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/manage/destinations",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{HOST}}:{{PORT}}/manage/destinations",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"manage",
+								"destinations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/manage/destinations/{id}",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{HOST}}:{{PORT}}/manage/destinations/1",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"manage",
+								"destinations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/manage/destinations/{id}",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{HOST}}:{{PORT}}/manage/destinations/1",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"manage",
+								"destinations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/manage/destinations",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"alias\": \"glasgow\",\n    \"address\": \"St Paul Street, 2345 Glasgow\"\n}"
+						},
+						"url": {
+							"raw": "http://{{HOST}}:{{PORT}}/manage/destinations",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"manage",
+								"destinations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/manage/destinations/{id}",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"alias\": \"london\",\n    \"address\": \"St Paul Street, 2345 Glasgow\"\n}"
+						},
+						"url": {
+							"raw": "http://{{HOST}}:{{PORT}}/manage/destinations/1",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"manage",
+								"destinations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
