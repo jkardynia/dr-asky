@@ -17,5 +17,11 @@ https://medium.com/google-cloud/getting-started-with-google-app-engine-and-sprin
 ./mvnw appengine:deploy
 ```
 
+To use production db specify its configuration like this:
+
+```
+./mvnw appengine:deploy -Dspring.jpa.hibernate.ddl-auto=update -Dspring.datasource.url=jdbc:mysql://localhost:3306/db_example -Dspring.datasource.username=theuser -Dspring.datasource.password=ThePassword
+```
+
 ### Accessing website
 [PROJECT_ID].appspot.com
