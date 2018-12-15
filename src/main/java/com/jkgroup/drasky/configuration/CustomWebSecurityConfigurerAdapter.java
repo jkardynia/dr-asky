@@ -1,6 +1,7 @@
 package com.jkgroup.drasky.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -18,13 +19,16 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private static final String BASIC_USER_NAME = "admin";
-    private static final String BASIC_USER_PASSWORD = "admin";
+    @Value("${security.user.name:}")
+    private String user;
+
+    @Value("${security.user.password:}")
+    private String password;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser(BASIC_USER_NAME).password(passwordEncoder.encode(BASIC_USER_PASSWORD))
+                .withUser(user).password(passwordEncoder.encode(password))
                 .authorities("ROLE_USER");
     }
 

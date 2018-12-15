@@ -17,7 +17,7 @@ If you are using IntelliJ IDEA it is convenient to use Run Configurations:
 - __dr-asky - local__ - to run application with local configuration
 - __dr-asky - gcloud__ - to run application with Google Cloud configuration. In order to obtain connection to MySql, 
 specify correct username and password by editing Run Configuration. You also need to use cloud_sql_proxy tool to be able to connect (https://cloud.google.com/sql/docs/mysql/sql-proxy)
-- __dr-asky - gcloud deploy__ - deploy application to Google Cloud, specify correct username and password in *application-gcloud.properties*.
+- __dr-asky - gcloud deploy__ - deploy application to Google Cloud, specify correct credentials in *application-gcloud.properties*.
 
 ### Deploying to Google Cloud
 
@@ -27,7 +27,7 @@ To use production db specify its configuration like this:
 ./mvnw appengine:deploy -Pgcloud
 ```
 
-Update *application-gcloud.properties* with correct username and passord.
+Update *application-gcloud.properties* with correct credentials.
 
 ### Accessing website
 [PROJECT_ID].appspot.com
