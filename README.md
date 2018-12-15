@@ -32,8 +32,10 @@ Update *app.yml* with correct username and passord.
 ### Accessing website
 [PROJECT_ID].appspot.com
 
-### Manage data
+## Manage data
 You can manipulate all entities via REST API, see starting endpoint using 
 ```
 GET /manage
 ```
+
+You can use proveded Postman collection or any browser (for example http://localhost:8080/manage)
