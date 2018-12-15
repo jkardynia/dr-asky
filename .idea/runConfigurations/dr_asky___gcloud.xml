@@ -11,7 +11,7 @@
           <option name="goals">
             <list>
               <option value="spring-boot:run" />
-              <option value="-Dspring.profiles.active=gcloud" />
+              <option value="-Pgcloud" />
               <option value="-Dspring.datasource.username=user" />
               <option value="-Dspring.datasource.password=pass" />
             </list>

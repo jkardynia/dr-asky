@@ -16,6 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <mvn.profiles.active></mvn.profiles.active>
     </properties>
 
     <dependencies>
@@ -79,6 +80,15 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>gcloud</id>
+            <properties>
+                <mvn.profiles.active>gcloud</mvn.profiles.active>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
@@ -94,6 +104,12 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources/</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 
 
