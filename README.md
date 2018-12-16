@@ -1,6 +1,20 @@
 # dr-asky
 
-## Run app on embeded tomcat:
+It is Google DialogFlow (https://dialogflow.com/) application which can be easily connected to Google Actions (https://developers.google.com/actions/) in order to use it with Google Assistant and other services. It adds custom intents with Web Hook to Dr Asky Java service.
+
+## DialogFlow application
+Zip dialogflow directory and import to DialogFlow.
+
+## Web Hook application
+### Manage data
+You can manipulate all entities via REST API, see starting endpoint using 
+```
+GET /manage
+```
+
+You can use proveded Postman collection or any browser (for example http://localhost:8080/manage)
+
+### Run service locally on embeded tomcat:
 ```
  ./mvnw spring-boot:run
 ```
@@ -31,11 +45,3 @@ Update *application-gcloud.properties* with correct credentials.
 
 ### Accessing website
 [PROJECT_ID].appspot.com
-
-## Manage data
-You can manipulate all entities via REST API, see starting endpoint using 
-```
-GET /manage
-```
-
-You can use proveded Postman collection or any browser (for example http://localhost:8080/manage)
