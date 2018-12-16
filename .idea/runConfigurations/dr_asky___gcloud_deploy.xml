@@ -12,6 +12,7 @@
             <list>
               <option value="appengine:deploy" />
               <option value="-Pgcloud" />
+              <option value="-DskipTests=true" />
             </list>
           </option>
           <option name="pomFileName" value="pom.xml" />

@@ -12,8 +12,8 @@
             <list>
               <option value="spring-boot:run" />
               <option value="-Pgcloud" />
-              <option value="-Dspring.datasource.username=user" />
-              <option value="-Dspring.datasource.password=pass" />
+              <option value="-Dspring.datasource.username=drasky" />
+              <option value="-Dspring.datasource.password=drasky" />
             </list>
           </option>
           <option name="pomFileName" value="pom.xml" />
