@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="dr-asky - gcloud" type="MavenRunConfiguration" factoryName="Maven">
+  <configuration default="false" name="dr-asky - gcloud sql" type="MavenRunConfiguration" factoryName="Maven">
     <MavenSettings>
       <option name="myGeneralSettings" />
       <option name="myRunnerSettings" />
@@ -11,9 +11,7 @@
           <option name="goals">
             <list>
               <option value="spring-boot:run" />
-              <option value="-Pgcloud" />
-              <option value="-Dspring.datasource.username=drasky" />
-              <option value="-Dspring.datasource.password=drasky" />
+              <option value="-Dspring.active.profiles=gcloud-sql" />
             </list>
           </option>
           <option name="pomFileName" value="pom.xml" />
