@@ -1,4 +1,4 @@
-package com.jkgroup.drasky.commuting.controller.dto;
+package com.jkgroup.drasky.intent.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

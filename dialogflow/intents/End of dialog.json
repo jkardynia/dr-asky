@@ -1,18 +1,19 @@
 {
-  "id": "48d98f4c-1f2f-47c0-9625-ab7d31c2ea71",
-  "name": "Thanks",
+  "id": "134b9aa2-a2bb-483b-853f-60ec7f600cbb",
+  "name": "End of dialog",
   "auto": true,
   "contexts": [],
   "responses": [
     {
       "resetContexts": false,
+      "action": "",
       "affectedContexts": [],
       "parameters": [],
       "messages": [
         {
           "type": 0,
           "lang": "en",
-          "speech": "You are welcome, bye"
+          "speech": "Bye"
         }
       ],
       "defaultResponsePlatforms": {},
@@ -22,7 +23,7 @@
   "priority": 500000,
   "webhookUsed": false,
   "webhookForSlotFilling": false,
-  "lastUpdate": 1544279699,
+  "lastUpdate": 1544979183,
   "fallbackIntent": false,
   "events": []
 }

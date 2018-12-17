@@ -1,4 +1,4 @@
-package com.jkgroup.drasky.commuting.controller.dto;
+package com.jkgroup.drasky.intent.dto;
 
 import lombok.Getter;
 
@@ -8,7 +8,7 @@ import java.util.Map;
 @Getter
 public class QueryResultDto {
     private String queryText;
-    private Map<String, List<String>> parameters;
+    private Map<String, Object> parameters;
     private Boolean allRequiredParamsPresent;
     private String fulfillmentText;
     private List<FulfillmentMessageDto> fulfillmentMessages;

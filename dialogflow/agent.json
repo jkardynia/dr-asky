@@ -1,15 +1,19 @@
 {
   "description": "",
   "language": "en",
+  "activeAssistantAgents": [
+    "smalltalk-domain-on",
+    "smalltalk-fulfillment-on"
+  ],
   "disableInteractionLogs": false,
   "disableStackdriverLogs": true,
   "googleAssistant": {
-    "googleAssistantCompatible": true,
+    "googleAssistantCompatible": false,
     "welcomeIntentSignInRequired": false,
     "startIntents": [],
     "systemIntents": [],
     "endIntentIds": [
-      "48d98f4c-1f2f-47c0-9625-ab7d31c2ea71"
+      "134b9aa2-a2bb-483b-853f-60ec7f600cbb"
     ],
     "oAuthLinking": {
       "required": false,
@@ -22,7 +26,7 @@
   },
   "defaultTimezone": "Europe/Madrid",
   "webhook": {
-    "url": "https://drasky-225017.appspot.com/commuting/public-transport/intent/when-bus-arrives",
+    "url": "https://drasky-225017.appspot.com/dr-asky/agent",
     "username": "admin",
     "headers": {
       "": ""

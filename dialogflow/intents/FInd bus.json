@@ -1,0 +1,61 @@
+{
+  "id": "b17cc4c1-92ce-4ba5-bdf5-36b42152ece1",
+  "name": "Find bus",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "id": "8f9c35b3-ccff-4d43-9444-5c59c55881e8",
+          "required": true,
+          "dataType": "@sys.any",
+          "name": "destination",
+          "value": "$destination",
+          "prompts": [],
+          "isList": false
+        },
+        {
+          "id": "a36d6f38-92a4-4581-8d13-53ce214c6739",
+          "required": false,
+          "dataType": "@sys.time",
+          "name": "time",
+          "value": "$time",
+          "isList": false
+        },
+        {
+          "id": "2d4dcfc8-6630-4fb7-9872-0a5c5d12fd8c",
+          "required": false,
+          "dataType": "@sys.duration",
+          "name": "duration",
+          "value": "$duration",
+          "isList": false
+        },
+        {
+          "id": "949733b7-8c25-4d40-aeeb-3316b4b23dc0",
+          "dataType": "@sys.date",
+          "name": "date",
+          "value": "$date"
+        }
+      ],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "speech": "Please repeat."
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": true,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1544986900,
+  "fallbackIntent": false,
+  "events": []
+}

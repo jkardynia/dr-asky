@@ -1,7 +1,7 @@
 {
-  "id": "3c7e8563-64bc-4696-849b-be7ea7bd7e2b",
+  "id": "798daf49-439c-4d02-8524-1b234f6e76ce",
   "name": "destination",
   "isOverridable": true,
-  "isEnum": false,
+  "isEnum": true,
   "automatedExpansion": true
 }
