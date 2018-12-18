@@ -22,11 +22,11 @@ public class IntentActionRouter {
     }
 
     public DialogFlowResponse executeAction(DialogFlowRequest request){
-        String intentName = request.getQueryResult().getIntent().getDisplayName();
-        IntentAction action = intentActions.get(intentName);
+        String actionName = request.getQueryResult().getAction();
+        IntentAction action = intentActions.get(actionName);
 
         if(action == null){
-            throw new RuntimeException("No action registered for intent " + intentName);
+            throw new RuntimeException("No action registered for intent " + actionName);
         }
 
         return action.execute(request);
