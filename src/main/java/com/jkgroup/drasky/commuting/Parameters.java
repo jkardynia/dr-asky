@@ -1,5 +1,6 @@
 package com.jkgroup.drasky.commuting;
 
+import com.jkgroup.drasky.intent.Configuration;
 import com.jkgroup.drasky.intent.dto.DialogFlowRequest;
 import com.jkgroup.drasky.intent.model.ParameterType;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZonedDateTime;
+import java.util.Map;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -30,21 +33,28 @@ public enum Parameters {
 
     public static Duration getDuration(@RequestBody DialogFlowRequest request) {
         return Parameters.DURATION.get(request)
-                .map(it -> (com.jkgroup.drasky.intent.model.Duration) it) // todo fix creating intent.model.Duration from Object
+                .map(it -> (Map<String, Object>) it)
+                .map(it -> com.jkgroup.drasky.intent.model.Duration.of((Integer) it.get("amount"), it.get("unit").toString()))
                 .map(it -> it.toJavaDuration())
                 .orElse(Duration.ZERO);
     }
 
-    public static String getDate(@RequestBody DialogFlowRequest request) {
+    public static LocalDate getDate(@RequestBody DialogFlowRequest request) {
         return Parameters.DATE.get(request)
-                .map(it -> String.class.cast(it)) // todo create LocalDate
-                .orElse(LocalDate.now().toString()); // todo get only date part
+                .map(it -> String.class.cast(it) )
+                .filter(it -> !it.isEmpty())
+                .map(it -> ZonedDateTime.parse(it, Configuration.DATE_TIME_FORMATTER))
+                .map(it -> it.toLocalDate())
+                .orElse(LocalDate.now());
     }
 
-    public static String getTime(@RequestBody DialogFlowRequest request) {
+    public static LocalTime getTime(@RequestBody DialogFlowRequest request) {
         return Parameters.TIME.get(request)
-                .map(it -> String.class.cast(it)) // todo create LocalTime
-                .orElse(LocalTime.now().toString()); // todo get only time part
+                .map(it -> String.class.cast(it) )
+                .filter(it -> !it.isEmpty())
+                .map(it -> ZonedDateTime.parse(it, Configuration.DATE_TIME_FORMATTER))
+                .map(it -> it.toLocalTime())
+                .orElse(LocalTime.now());
     }
 
     private Optional<Object> get(DialogFlowRequest request){
