@@ -17,6 +17,7 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -49,14 +50,24 @@ public class FindBusIntentAction implements Action {
 
     @Override
     public DialogFlowResponse execute(DialogFlowRequest request) {
+        LocalDateTime dateTime = getRequestedDateTime(request);
         String destination = Parameters.getDestination(request);
-        LocalDateTime dateTime = LocalDateTime.of(Parameters.getDate(request), Parameters.getTime(request));
         BusInfo busInfo = busCheckingService.findBus(getProfileHomeLocation(), getAddress(destination), dateTime);
 
         return DialogFlowResponse
                 .builder()
                 .fulfillmentText(getFulfillmentText(destination, busInfo))
                 .build();
+    }
+
+    private LocalDateTime getRequestedDateTime(DialogFlowRequest request) {
+        Duration duration = Parameters.getDuration(request);
+
+        if(!Duration.ZERO.equals(duration)){
+            return LocalDateTime.now().plusSeconds(duration.getSeconds());
+        }
+
+        return LocalDateTime.of(Parameters.getDate(request), Parameters.getTime(request));
     }
 
     private String getProfileHomeLocation() {
