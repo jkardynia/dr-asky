@@ -9,7 +9,7 @@
 			"name": "intents",
 			"item": [
 				{
-					"name": "when-bus-arrives",
+					"name": "find-bus",
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -36,19 +36,17 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"responseId\": \"ea3d77e8-ae27-41a4-9e1d-174bd461b68c\",\n  \"session\": \"projects/your-agents-project-id/agent/sessions/88d13aa8-2999-4f71-b233-39cbf3a824a0\",\n  \"queryResult\": {\n    \"queryText\": \"user's original query to your agent\",\n    \"parameters\": {\n      \"destination\": [\"Cracow\"]\n    },\n    \"allRequiredParamsPresent\": true,\n    \"fulfillmentText\": \"Text defined in Dialogflow's console for the intent that was matched\",\n    \"fulfillmentMessages\": [\n      {\n        \"text\": {\n          \"text\": [\n            \"Text defined in Dialogflow's console for the intent that was matched\"\n          ]\n        }\n      }\n    ],\n    \"outputContexts\": [\n      {\n        \"name\": \"projects/your-agents-project-id/agent/sessions/88d13aa8-2999-4f71-b233-39cbf3a824a0/contexts/generic\",\n        \"parameters\": \n          {\"param\": \"param value\"}\n        \n      }\n    ],\n    \"intent\": {\n      \"name\": \"projects/your-agents-project-id/agent/intents/29bcd7f8-f717-4261-a8fd-2d3e451b8af8\",\n      \"displayName\": \"Matched Intent Name\"\n    },\n    \"intentDetectionConfidence\": 1,\n    \"diagnosticInfo\": {},\n    \"languageCode\": \"en\"\n  },\n  \"originalDetectIntentRequest\": {}\n}"
+							"raw": "{\n  \"responseId\": \"01f078c6-1598-4281-ac26-6f2d19e56a26\",\n  \"queryResult\": {\n    \"queryText\": \"bus to cracow after 10 seconds\",\n    \"action\": \"find_bus\",\n    \"parameters\": {\n      \"destination\": \"home\",\n      \"time\": \"\",\n      \"duration\": {\n        \"amount\": 10,\n        \"unit\": \"s\"\n      },\n      \"date\": \"\"\n    },\n    \"allRequiredParamsPresent\": true,\n    \"fulfillmentText\": \"Please repeat.\",\n    \"fulfillmentMessages\": [\n      {\n        \"text\": {\n          \"text\": [\n            \"Please repeat.\"\n          ]\n        }\n      }\n    ],\n    \"intent\": {\n      \"name\": \"projects/drasky-225017/agent/intents/b17cc4c1-92ce-4ba5-bdf5-36b42152ece1\",\n      \"displayName\": \"Find bus\"\n    },\n    \"intentDetectionConfidence\": 1,\n    \"languageCode\": \"en\"\n  },\n  \"originalDetectIntentRequest\": {\n    \"payload\": {}\n  },\n  \"session\": \"projects/drasky-225017/agent/sessions/0d38b150-29d1-24ed-93f0-e0203dae9cba\"\n}"
 						},
 						"url": {
-							"raw": "{{HOST}}:{{PORT}}/commuting/public-transport/intent/when-bus-arrives",
+							"raw": "{{HOST}}:{{PORT}}/dr-asky/agent",
 							"host": [
 								"{{HOST}}"
 							],
 							"port": "{{PORT}}",
 							"path": [
-								"commuting",
-								"public-transport",
-								"intent",
-								"when-bus-arrives"
+								"dr-asky",
+								"agent"
 							]
 						}
 					},

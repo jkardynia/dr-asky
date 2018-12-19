@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Hibernate schema exporter" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.jkgroup.tools.HibernateSchemaExporter" />
+    <module name="dr-asky" />
+    <option name="WORKING_DIRECTORY" value="." />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -4,13 +4,15 @@ import com.jkgroup.drasky.commuting.Parameters;
 import com.jkgroup.drasky.commuting.bus.BusCheckingService;
 import com.jkgroup.drasky.commuting.bus.BusInfo;
 import com.jkgroup.drasky.commuting.repository.DestinationRepository;
+import com.jkgroup.drasky.intent.IntentAction;
 import com.jkgroup.drasky.intent.dto.DialogFlowRequest;
 import com.jkgroup.drasky.intent.dto.DialogFlowResponse;
-import com.jkgroup.drasky.intent.model.IntentAction;
+import com.jkgroup.drasky.intent.model.Action;
+import com.jkgroup.drasky.intent.model.IntentException;
+import com.jkgroup.drasky.intent.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,20 +20,26 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@Service
-public class FindBusIntentAction implements IntentAction {
+@IntentAction
+public class FindBusIntentAction implements Action {
 
     private DestinationRepository destinationRepository;
+    private ProfileRepository profileRepository;
     private BusCheckingService busCheckingService;
     private String name;
+    private String defaultProfile;
 
     @Autowired
     public FindBusIntentAction(DestinationRepository destinationRepository,
+                               ProfileRepository profileRepository,
                                BusCheckingService busCheckingService,
-                               @Value("${dr-asky.intent.find-bus.action-name}") String actionName){
+                               @Value("${dr-asky.intent.find-bus.action-name}") String actionName,
+                               @Value("${dr-asky.default-profile}") String defaultProfile){
         this.destinationRepository = destinationRepository;
+        this.profileRepository = profileRepository;
         this.busCheckingService = busCheckingService;
         this.name = actionName;
+        this.defaultProfile = defaultProfile;
     }
 
     @Override
@@ -42,16 +50,19 @@ public class FindBusIntentAction implements IntentAction {
     @Override
     public DialogFlowResponse execute(DialogFlowRequest request) {
         String destination = Parameters.getDestination(request);
-        String myLocation = "ul Pachonskiego 14";
-
         LocalDateTime dateTime = LocalDateTime.of(Parameters.getDate(request), Parameters.getTime(request));
-
-        BusInfo busInfo = busCheckingService.findBus(myLocation, getAddress(destination), dateTime);
+        BusInfo busInfo = busCheckingService.findBus(getProfileHomeLocation(), getAddress(destination), dateTime);
 
         return DialogFlowResponse
                 .builder()
                 .fulfillmentText(getFulfillmentText(destination, busInfo))
                 .build();
+    }
+
+    private String getProfileHomeLocation() {
+        return profileRepository.findOneByUsername(defaultProfile)
+                .map(it -> it.getHomeLocation())
+                .orElseThrow(() -> IntentException.profileHomeLocationNotSet(defaultProfile));
     }
 
     private String getFulfillmentText(String destination, BusInfo busInfo) {
@@ -71,7 +82,7 @@ public class FindBusIntentAction implements IntentAction {
     }
 
     private String getAddress(String alias){
-        return destinationRepository.findOneByAlias(alias.toLowerCase())
+        return destinationRepository.findOneByAliasForProfile(defaultProfile, alias.toLowerCase())
                 .map(it -> it.getAddress())
                 .orElse(alias);
     }

@@ -13,20 +13,20 @@ import java.util.stream.Collectors;
 @Component
 public class IntentActionRouter {
 
-    private Map<String, IntentAction> intentActions;
+    private Map<String, Action> intentActions;
 
     @Autowired
-    public IntentActionRouter(List<IntentAction> intentActions){
+    public IntentActionRouter(List<Action> intentActions){
         this.intentActions = intentActions.stream()
-                .collect(Collectors.toMap(IntentAction::getName, Function.identity()));
+                .collect(Collectors.toMap(Action::getName, Function.identity()));
     }
 
     public DialogFlowResponse executeAction(DialogFlowRequest request){
         String actionName = request.getQueryResult().getAction();
-        IntentAction action = intentActions.get(actionName);
+        Action action = intentActions.get(actionName);
 
         if(action == null){
-            throw new RuntimeException("No action registered for intent " + actionName);
+            throw IntentException.intentActionNotFound(actionName);
         }
 
         return action.execute(request);

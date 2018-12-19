@@ -11,7 +11,7 @@
           <option name="goals">
             <list>
               <option value="spring-boot:run" />
-              <option value="-Dspring.active.profiles=gcloud-sql" />
+              <option value="-Dspring.profiles.active=gcloud-sql" />
             </list>
           </option>
           <option name="pomFileName" value="pom.xml" />
