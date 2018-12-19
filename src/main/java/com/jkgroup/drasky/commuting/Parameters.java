@@ -1,6 +1,6 @@
 package com.jkgroup.drasky.commuting;
 
-import com.jkgroup.drasky.intent.Configuration;
+import com.jkgroup.drasky.intent.AppConfiguration;
 import com.jkgroup.drasky.intent.dto.DialogFlowRequest;
 import com.jkgroup.drasky.intent.model.ParameterType;
 import lombok.AllArgsConstructor;
@@ -43,7 +43,7 @@ public enum Parameters {
         return Parameters.DATE.get(request)
                 .map(it -> String.class.cast(it) )
                 .filter(it -> !it.isEmpty())
-                .map(it -> ZonedDateTime.parse(it, Configuration.DATE_TIME_FORMATTER))
+                .map(it -> ZonedDateTime.parse(it, AppConfiguration.DATE_TIME_FORMATTER))
                 .map(it -> it.toLocalDate())
                 .orElse(LocalDate.now());
     }
@@ -52,7 +52,7 @@ public enum Parameters {
         return Parameters.TIME.get(request)
                 .map(it -> String.class.cast(it) )
                 .filter(it -> !it.isEmpty())
-                .map(it -> ZonedDateTime.parse(it, Configuration.DATE_TIME_FORMATTER))
+                .map(it -> ZonedDateTime.parse(it, AppConfiguration.DATE_TIME_FORMATTER))
                 .map(it -> it.toLocalTime())
                 .orElse(LocalTime.now());
     }
