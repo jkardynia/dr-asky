@@ -1,0 +1,38 @@
+{
+  "id": "4390311e-8212-412a-b719-d992622f3820",
+  "name": "Air quality",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "air_quality",
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "id": "b45a4f64-2027-4859-a53d-bee811715e07",
+          "required": true,
+          "dataType": "@sys.any",
+          "name": "location",
+          "value": "$location",
+          "isList": false
+        }
+      ],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "speech": "Please repeat."
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": true,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1545317209,
+  "fallbackIntent": false,
+  "events": []
+}

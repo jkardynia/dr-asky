@@ -36,9 +36,11 @@
         },
         {
           "id": "949733b7-8c25-4d40-aeeb-3316b4b23dc0",
+          "required": false,
           "dataType": "@sys.date",
           "name": "date",
-          "value": "$date"
+          "value": "$date",
+          "isList": false
         }
       ],
       "messages": [
@@ -55,7 +57,7 @@
   "priority": 500000,
   "webhookUsed": true,
   "webhookForSlotFilling": false,
-  "lastUpdate": 1544986900,
+  "lastUpdate": 1545163871,
   "fallbackIntent": false,
   "events": []
 }

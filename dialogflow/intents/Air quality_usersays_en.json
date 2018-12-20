@@ -1,0 +1,20 @@
+[
+  {
+    "id": "f90cccc2-d0ac-44e0-861a-70f6c2cd3098",
+    "data": [
+      {
+        "text": "Check air quality in ",
+        "userDefined": false
+      },
+      {
+        "text": "location",
+        "alias": "location",
+        "meta": "@sys.any",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1545316947
+  }
+]
