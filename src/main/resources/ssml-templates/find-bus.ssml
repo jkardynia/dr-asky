@@ -1,5 +1,8 @@
 <speak>
     <s>There will be bus number [(${busInfo.busNumber})] to <break time="200ms"/> [(${destination})] at <break time="200ms"/>
-    <say-as interpret-as="date" format="yyyymmdd" detail="1">[(${date})]</say-as></s>
-    <s><say-as interpret-as="time" format="hm24">[(${time})]</say-as> o'clock</s>
+        [# th:if="${date} != null"]
+            <say-as interpret-as="date" format="yyyymmdd" detail="1">[(${#temporals.format(date,'yyyy-MM-dd')})]</say-as>
+        [/]
+    </s>
+    <s><say-as interpret-as="time" format="hm24">[(${#temporals.format(time,'HH:mm')})]</say-as> o'clock</s>
 </speak>

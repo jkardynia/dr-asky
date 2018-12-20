@@ -16,8 +16,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.thymeleaf.context.Context;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @IntentAction
 public class FindBusIntentAction implements Action {
@@ -82,8 +82,8 @@ public class FindBusIntentAction implements Action {
         Context context = new Context();
         context.setVariable("destination", destination);
         context.setVariable("busInfo", busInfo);
-        context.setVariable("date", busInfo.getArrivalTime().format(DateTimeFormatter.ISO_LOCAL_DATE));
-        context.setVariable("time", busInfo.getArrivalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+        context.setVariable("date", isToday(busInfo.getArrivalTime()) ? null : busInfo.getArrivalTime());
+        context.setVariable("time", busInfo.getArrivalTime());
 
         return templateGenerator.parse("ssml-templates/find-bus.ssml", context);
     }
@@ -92,5 +92,9 @@ public class FindBusIntentAction implements Action {
         return destinationRepository.findOneByAliasForProfile(defaultProfile, alias.toLowerCase())
                 .map(it -> it.getAddress())
                 .orElse(alias);
+    }
+
+    private boolean isToday(LocalDateTime date){
+        return LocalDate.now().equals(date.toLocalDate());
     }
 }

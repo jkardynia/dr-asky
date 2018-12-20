@@ -3,6 +3,7 @@ package com.jkgroup.drasky.intent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import java.time.format.DateTimeFormatter;
@@ -17,6 +18,7 @@ public class AppConfiguration {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver ();
         templateResolver.setTemplateMode("TEXT");
         templateEngine.setTemplateResolver(templateResolver);
+        templateEngine.addDialect(new Java8TimeDialect());
 
         return templateEngine;
     }
