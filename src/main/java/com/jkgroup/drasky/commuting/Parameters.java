@@ -27,20 +27,23 @@ public enum Parameters {
 
     public static String getDestination(@RequestBody DialogFlowRequest request) {
         return Parameters.DESTINATION.get(request)
+                .filter(it -> it instanceof String)
                 .map(it -> String.class.cast(it) )
                 .orElse(""); // should never happen as it is required param
     }
 
     public static Duration getDuration(@RequestBody DialogFlowRequest request) {
         return Parameters.DURATION.get(request)
+                .filter(it -> it instanceof Map)
                 .map(it -> (Map<String, Object>) it)
-                .map(it -> com.jkgroup.drasky.intent.model.Duration.of((Integer) it.get("amount"), it.get("unit").toString()))
+                .map(it -> com.jkgroup.drasky.intent.model.Duration.of(castToNumber(it.get("amount")), it.get("unit").toString()))
                 .map(it -> it.toJavaDuration())
                 .orElse(Duration.ZERO);
     }
 
     public static LocalDate getDate(@RequestBody DialogFlowRequest request) {
         return Parameters.DATE.get(request)
+                .filter(it -> it instanceof String)
                 .map(it -> String.class.cast(it) )
                 .filter(it -> !it.isEmpty())
                 .map(it -> ZonedDateTime.parse(it, AppConfiguration.DATE_TIME_FORMATTER))
@@ -50,6 +53,7 @@ public enum Parameters {
 
     public static LocalTime getTime(@RequestBody DialogFlowRequest request) {
         return Parameters.TIME.get(request)
+                .filter(it -> it instanceof String)
                 .map(it -> String.class.cast(it) )
                 .filter(it -> !it.isEmpty())
                 .map(it -> ZonedDateTime.parse(it, AppConfiguration.DATE_TIME_FORMATTER))
@@ -59,5 +63,9 @@ public enum Parameters {
 
     private Optional<Object> get(DialogFlowRequest request){
         return Optional.ofNullable(request.getQueryResult().getParameters().get(this.name));
+    }
+
+    private static Integer castToNumber(Object number) {
+        return number instanceof Double ? ((Double) number).intValue() : (Integer) number;
     }
 }
