@@ -1,29 +1,15 @@
 package com.jkgroup.drasky.health;
 
-import com.jkgroup.drasky.intent.dto.DialogFlowRequest;
-import com.jkgroup.drasky.intent.model.ParameterType;
+import com.jkgroup.drasky.intent.model.parameter.type.ParameterType;
+import com.jkgroup.drasky.intent.model.parameter.type.SysAny;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.Optional;
 
 @AllArgsConstructor
 @Getter
 public enum Parameters {
-    LOCATION("location", ParameterType.SYS_ANY);
+    LOCATION("location", SysAny.class);
 
     private String name;
-    private ParameterType type;
-
-    public static String getLocation(@RequestBody DialogFlowRequest request) {
-        return Parameters.LOCATION.get(request)
-                .filter(it -> it instanceof String)
-                .map(it -> String.class.cast(it) )
-                .orElse(""); // should never happen as it is required param
-    }
-
-    private Optional<Object> get(DialogFlowRequest request){
-        return Optional.ofNullable(request.getQueryResult().getParameters().get(this.name));
-    }
+    private Class<? extends ParameterType<?>> type;
 }

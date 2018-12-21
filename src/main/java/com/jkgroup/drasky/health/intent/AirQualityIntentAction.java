@@ -8,6 +8,7 @@ import com.jkgroup.drasky.intent.TemplateGenerator;
 import com.jkgroup.drasky.intent.dto.DialogFlowRequest;
 import com.jkgroup.drasky.intent.dto.DialogFlowResponse;
 import com.jkgroup.drasky.intent.model.Action;
+import com.jkgroup.drasky.intent.model.parameter.ParameterResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.thymeleaf.context.Context;
@@ -39,7 +40,7 @@ public class AirQualityIntentAction implements Action {
     @Override
     public DialogFlowResponse execute(DialogFlowRequest request) {
 
-        String location = Parameters.getLocation(request);
+        String location = ParameterResolver.getSysAnyValue(request, Parameters.LOCATION.getName());
         AirQualityInfo airQualityInfo = airlyService.checkAirQuality(location);
 
         return DialogFlowResponse

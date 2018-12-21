@@ -10,6 +10,7 @@ import com.jkgroup.drasky.intent.dto.DialogFlowRequest;
 import com.jkgroup.drasky.intent.dto.DialogFlowResponse;
 import com.jkgroup.drasky.intent.model.Action;
 import com.jkgroup.drasky.intent.model.IntentException;
+import com.jkgroup.drasky.intent.model.parameter.ParameterResolver;
 import com.jkgroup.drasky.intent.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,7 +53,7 @@ public class FindBusIntentAction implements Action {
     @Override
     public DialogFlowResponse execute(DialogFlowRequest request) {
         LocalDateTime dateTime = getRequestedDateTime(request);
-        String destination = Parameters.getDestination(request);
+        String destination = ParameterResolver.getSysAnyValue(request, Parameters.DESTINATION.getName());
         BusInfo busInfo = busCheckingService.findBus(getProfileHomeLocation(), getAddress(destination), dateTime);
 
         return DialogFlowResponse
@@ -62,13 +63,14 @@ public class FindBusIntentAction implements Action {
     }
 
     private LocalDateTime getRequestedDateTime(DialogFlowRequest request) {
-        Duration duration = Parameters.getDuration(request);
+        Duration duration = ParameterResolver.getSysDurationValue(request, Parameters.DURATION.getName());
 
         if(!Duration.ZERO.equals(duration)){
             return LocalDateTime.now().plusSeconds(duration.getSeconds());
         }
 
-        return LocalDateTime.of(Parameters.getDate(request), Parameters.getTime(request));
+        return LocalDateTime.of(ParameterResolver.getSysDateValue(request, Parameters.DATE.getName()),
+                ParameterResolver.getSysTimeValue(request, Parameters.TIME.getName()));
     }
 
     private String getProfileHomeLocation() {
