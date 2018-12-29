@@ -1,0 +1,29 @@
+{
+  "id": "c4541864-8f6d-43ea-91d5-2b2f1b5c97d5",
+  "name": "Merchant Sunday",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "merchant-sunday",
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "speech": "Cannot find it."
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": true,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1546080665,
+  "fallbackIntent": false,
+  "events": []
+}
