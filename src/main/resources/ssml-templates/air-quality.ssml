@@ -1,3 +1,4 @@
 <speak>
-    <s>Air quality in [(${location})] is <break time="200ms"/> [(${airQualityInfo.quality})]</s>
+    <s>[(${currentAirQuality.indexes[0].description})]</s>
+    <s>[(${currentAirQuality.indexes[0].advice})]</s>
 </speak>

@@ -1,8 +1,8 @@
 package com.jkgroup.drasky.health.intent;
 
 import com.jkgroup.drasky.health.Parameters;
-import com.jkgroup.drasky.health.service.AirQualityInfo;
-import com.jkgroup.drasky.health.service.AirlyService;
+import com.jkgroup.drasky.health.service.airly.AirQuality;
+import com.jkgroup.drasky.health.service.airly.AirlyService;
 import com.jkgroup.drasky.intent.IntentAction;
 import com.jkgroup.drasky.intent.TemplateGenerator;
 import com.jkgroup.drasky.intent.dto.DialogFlowRequest;
@@ -41,19 +41,19 @@ public class AirQualityIntentAction implements Action {
     public DialogFlowResponse execute(DialogFlowRequest request) {
 
         String location = ParameterResolver.getSysAnyValue(request, Parameters.LOCATION.getName());
-        AirQualityInfo airQualityInfo = airlyService.checkAirQuality(location);
+        AirQuality airQuality = airlyService.checkAirQuality(location);
 
         return DialogFlowResponse
                 .builder()
-                .fulfillmentText(getFulfillmentText(location, airQualityInfo))
+                .fulfillmentText(getFulfillmentText(location, airQuality))
                 .build();
     }
 
-    private String getFulfillmentText(String location, AirQualityInfo airQualityInfo) {
+    private String getFulfillmentText(String location, AirQuality airQuality) {
 
         Context context = new Context();
         context.setVariable("location", location);
-        context.setVariable("airQualityInfo", airQualityInfo);
+        context.setVariable("currentAirQuality", airQuality.getCurrent());
 
         return templateGenerator.parse("ssml-templates/air-quality.ssml", context);
     }

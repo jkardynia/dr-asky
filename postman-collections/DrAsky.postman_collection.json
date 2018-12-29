@@ -51,6 +51,94 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "air-quallity",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"responseId\": \"01f078c6-1598-4281-ac26-6f2d19e56a26\",\n  \"queryResult\": {\n    \"queryText\": \"check air quality\",\n    \"action\": \"air_quality\",\n    \"parameters\": {\n      \"location\": \"home\"\n    },\n    \"allRequiredParamsPresent\": true,\n    \"fulfillmentText\": \"Please repeat.\",\n    \"fulfillmentMessages\": [\n      {\n        \"text\": {\n          \"text\": [\n            \"Please repeat.\"\n          ]\n        }\n      }\n    ],\n    \"intent\": {\n      \"name\": \"projects/drasky-225017/agent/intents/b17cc4c1-92ce-4ba5-bdf5-36b42152ece1\",\n      \"displayName\": \"Air quality\"\n    },\n    \"intentDetectionConfidence\": 1,\n    \"languageCode\": \"en\"\n  },\n  \"originalDetectIntentRequest\": {\n    \"payload\": {}\n  },\n  \"session\": \"projects/drasky-225017/agent/sessions/0d38b150-29d1-24ed-93f0-e0203dae9cba\"\n}"
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/dr-asky/agent",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"dr-asky",
+								"agent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "merchant-sunday",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"responseId\": \"01f078c6-1598-4281-ac26-6f2d19e56a26\",\n  \"queryResult\": {\n    \"queryText\": \"Is it merchant sunday\",\n    \"action\": \"merchant-sunday\",\n    \"parameters\": {\n      \"location\": \"home\"\n    },\n    \"allRequiredParamsPresent\": true,\n    \"fulfillmentText\": \"Please repeat.\",\n    \"fulfillmentMessages\": [\n      {\n        \"text\": {\n          \"text\": [\n            \"Please repeat.\"\n          ]\n        }\n      }\n    ],\n    \"intent\": {\n      \"name\": \"projects/drasky-225017/agent/intents/b17cc4c1-92ce-4ba5-bdf5-36b42152ece1\",\n      \"displayName\": \"Air quality\"\n    },\n    \"intentDetectionConfidence\": 1,\n    \"languageCode\": \"en\"\n  },\n  \"originalDetectIntentRequest\": {\n    \"payload\": {}\n  },\n  \"session\": \"projects/drasky-225017/agent/sessions/0d38b150-29d1-24ed-93f0-e0203dae9cba\"\n}"
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/dr-asky/agent",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"dr-asky",
+								"agent"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
