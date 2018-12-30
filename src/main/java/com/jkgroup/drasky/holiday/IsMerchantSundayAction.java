@@ -12,11 +12,11 @@ import static java.time.DayOfWeek.SUNDAY;
 import static java.time.temporal.TemporalAdjusters.*;
 
 @IntentAction
-public class IsMerchantSundayIntentAction implements Action {
+public class IsMerchantSundayAction implements Action {
 
     private String name;
 
-    public IsMerchantSundayIntentAction(@Value("${dr-asky.intent.merchant-sunday.action-name}") String actionName){
+    public IsMerchantSundayAction(@Value("${dr-asky.intent.merchant-sunday.action-name}") String actionName){
         this.name = actionName;
     }
 
@@ -31,12 +31,12 @@ public class IsMerchantSundayIntentAction implements Action {
 
         return DialogFlowResponse
                 .builder()
-                .fulfillmentText("On next Sunday shops are " + (isMerchantSunday ? "opened" : "closed"))
+                .fulfillmentText("Next Sunday shops are " + (isMerchantSunday ? "open" : "closed"))
                 .build();
     }
 
     private boolean isLastSundayInMonth() {
-        final LocalDate nextSunday = LocalDate.now().with(next(SUNDAY));
+        final LocalDate nextSunday = LocalDate.now().with(nextOrSame(SUNDAY));
         final LocalDate monthLastSunday = LocalDate.now().with(lastDayOfMonth())
                 .with(previousOrSame(SUNDAY));
 

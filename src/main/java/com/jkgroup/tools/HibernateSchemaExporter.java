@@ -28,7 +28,9 @@ public final class HibernateSchemaExporter {
     }
 
     public static void main(String[] args) {
-        final List<String> entityPackages = Lists.newArrayList("com.jkgroup.drasky.commuting.entity", "com.jkgroup.drasky.intent.repository");
+        final List<String> entityPackages = Lists.newArrayList("com.jkgroup.drasky.commuting.repository",
+                "com.jkgroup.drasky.intent.repository",
+                "com.jkgroup.drasky.health.repository");
 
         HibernateSchemaExporter exporter = new HibernateSchemaExporter(entityPackages);
         exporter.export();

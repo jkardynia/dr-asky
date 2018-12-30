@@ -3,7 +3,7 @@ package com.jkgroup.drasky.commuting.intent;
 import com.jkgroup.drasky.commuting.Parameters;
 import com.jkgroup.drasky.commuting.bus.BusCheckingService;
 import com.jkgroup.drasky.commuting.bus.BusInfo;
-import com.jkgroup.drasky.commuting.repository.DestinationRepository;
+import com.jkgroup.drasky.commuting.repository.BusLocationsRepository;
 import com.jkgroup.drasky.intent.IntentAction;
 import com.jkgroup.drasky.intent.TemplateGenerator;
 import com.jkgroup.drasky.intent.dto.DialogFlowRequest;
@@ -21,9 +21,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @IntentAction
-public class FindBusIntentAction implements Action {
+public class FindBusAction implements Action {
 
-    private DestinationRepository destinationRepository;
+    private BusLocationsRepository busLocationsRepository;
     private ProfileRepository profileRepository;
     private BusCheckingService busCheckingService;
     private TemplateGenerator templateGenerator;
@@ -31,13 +31,13 @@ public class FindBusIntentAction implements Action {
     private String defaultProfile;
 
     @Autowired
-    public FindBusIntentAction(DestinationRepository destinationRepository,
-                               ProfileRepository profileRepository,
-                               BusCheckingService busCheckingService,
-                               TemplateGenerator templateGenerator,
-                               @Value("${dr-asky.intent.find-bus.action-name}") String actionName,
-                               @Value("${dr-asky.default-profile}") String defaultProfile){
-        this.destinationRepository = destinationRepository;
+    public FindBusAction(BusLocationsRepository busLocationsRepository,
+                         ProfileRepository profileRepository,
+                         BusCheckingService busCheckingService,
+                         TemplateGenerator templateGenerator,
+                         @Value("${dr-asky.intent.find-bus.action-name}") String actionName,
+                         @Value("${dr-asky.default-profile}") String defaultProfile){
+        this.busLocationsRepository = busLocationsRepository;
         this.profileRepository = profileRepository;
         this.busCheckingService = busCheckingService;
         this.templateGenerator = templateGenerator;
@@ -75,7 +75,7 @@ public class FindBusIntentAction implements Action {
 
     private String getProfileHomeLocation() {
         return profileRepository.findOneByUsername(defaultProfile)
-                .map(it -> it.getHomeLocation())
+                .map(it -> it.getHomeLocation().getAddress())
                 .orElseThrow(() -> IntentException.profileHomeLocationNotSet(defaultProfile));
     }
 
@@ -91,7 +91,7 @@ public class FindBusIntentAction implements Action {
     }
 
     private String getAddress(String alias){
-        return destinationRepository.findOneByAliasForProfile(defaultProfile, alias.toLowerCase())
+        return busLocationsRepository.findOneByAliasForProfile(defaultProfile, alias.toLowerCase())
                 .map(it -> it.getAddress())
                 .orElse(alias);
     }

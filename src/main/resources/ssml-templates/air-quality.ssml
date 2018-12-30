@@ -1,4 +1,5 @@
 <speak>
-    <s>[(${currentAirQuality.indexes[0].description})]</s>
-    <s>[(${currentAirQuality.indexes[0].advice})]</s>
+    <s>I am checking [(${locationName})].</s>
+    <s>[(${currentAirQuality.indexes[0].description})].</s>
+    <s>[(${currentAirQuality.indexes[0].advice})].</s>
 </speak>
