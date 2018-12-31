@@ -16,7 +16,7 @@ public class SysDuration implements ParameterType<Duration>{
         return getFromRequest(request, name)
                 .filter(it -> it instanceof Map)
                 .map(it -> (Map<String, Object>) it)
-                .map(it -> com.jkgroup.drasky.intent.model.Duration.of(castToNumber(it.get("amount")), it.get("unit").toString()))
+                .map(it -> com.jkgroup.drasky.intent.model.parameter.type.Duration.of(castToNumber(it.get("amount")), it.get("unit").toString()))
                 .map(it -> it.toJavaDuration())
                 .orElse(Duration.ZERO);
     }
