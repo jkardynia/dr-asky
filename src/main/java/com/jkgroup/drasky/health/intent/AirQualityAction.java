@@ -19,12 +19,12 @@ import org.thymeleaf.context.Context;
 
 @IntentAction
 public class AirQualityAction implements Action {
+    private final static String NAME = "air_quality";
 
     private AirlyService airlyService;
     private TemplateGenerator templateGenerator;
     private ProfileRepository profileRepository;
     private AirQualityLocationsRepository airQualityLocationsRepository;
-    private String name;
     private String defaultProfile;
 
     @Autowired
@@ -32,19 +32,17 @@ public class AirQualityAction implements Action {
                             TemplateGenerator templateGenerator,
                             ProfileRepository profileRepository,
                             AirQualityLocationsRepository airQualityLocationsRepository,
-                            @Value("${dr-asky.intent.air-quality.action-name}") String actionName,
                             @Value("${dr-asky.default-profile}") String defaultProfile){
         this.airlyService = airlyService;
         this.templateGenerator = templateGenerator;
         this.profileRepository = profileRepository;
         this.airQualityLocationsRepository = airQualityLocationsRepository;
-        this.name = actionName;
         this.defaultProfile = defaultProfile;
     }
 
     @Override
     public String getName() {
-        return name;
+        return NAME;
     }
 
     @Override

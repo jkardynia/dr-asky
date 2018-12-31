@@ -4,7 +4,6 @@ import com.jkgroup.drasky.intent.IntentAction;
 import com.jkgroup.drasky.intent.dto.DialogFlowRequest;
 import com.jkgroup.drasky.intent.dto.DialogFlowResponse;
 import com.jkgroup.drasky.intent.model.Action;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDate;
 
@@ -14,15 +13,11 @@ import static java.time.temporal.TemporalAdjusters.*;
 @IntentAction
 public class IsMerchantSundayAction implements Action {
 
-    private String name;
-
-    public IsMerchantSundayAction(@Value("${dr-asky.intent.merchant-sunday.action-name}") String actionName){
-        this.name = actionName;
-    }
+    private final static String NAME = "merchant-sunday";
 
     @Override
     public String getName() {
-        return name;
+        return NAME;
     }
 
     @Override

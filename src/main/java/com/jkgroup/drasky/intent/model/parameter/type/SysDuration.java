@@ -3,6 +3,7 @@ package com.jkgroup.drasky.intent.model.parameter.type;
 import com.jkgroup.drasky.intent.dto.DialogFlowRequest;
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
@@ -16,7 +17,7 @@ public class SysDuration implements ParameterType<Duration>{
         return getFromRequest(request, name)
                 .filter(it -> it instanceof Map)
                 .map(it -> (Map<String, Object>) it)
-                .map(it -> com.jkgroup.drasky.intent.model.parameter.type.Duration.of(castToNumber(it.get("amount")), it.get("unit").toString()))
+                .map(it -> com.jkgroup.drasky.intent.model.parameter.type.Duration.of(castToNumber(it.getOrDefault("amount", 0)), it.getOrDefault("unit", "s").toString()))
                 .map(it -> it.toJavaDuration())
                 .orElse(Duration.ZERO);
     }
@@ -26,6 +27,14 @@ public class SysDuration implements ParameterType<Duration>{
     }
 
     private static Integer castToNumber(Object number) {
-        return number instanceof Double ? ((Double) number).intValue() : (Integer) number;
+        if(number instanceof BigDecimal){
+            return ((BigDecimal) number).intValue();
+        }
+
+        if(number instanceof  Integer){
+            return (Integer) number;
+        }
+
+        return 0;
     }
 }

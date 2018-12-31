@@ -23,11 +23,12 @@ import java.time.LocalDateTime;
 @IntentAction
 public class FindBusAction implements Action {
 
+    private final static String NAME = "find_bus";
+
     private BusLocationsRepository busLocationsRepository;
     private ProfileRepository profileRepository;
     private BusCheckingService busCheckingService;
     private TemplateGenerator templateGenerator;
-    private String name;
     private String defaultProfile;
 
     @Autowired
@@ -35,19 +36,17 @@ public class FindBusAction implements Action {
                          ProfileRepository profileRepository,
                          BusCheckingService busCheckingService,
                          TemplateGenerator templateGenerator,
-                         @Value("${dr-asky.intent.find-bus.action-name}") String actionName,
                          @Value("${dr-asky.default-profile}") String defaultProfile){
         this.busLocationsRepository = busLocationsRepository;
         this.profileRepository = profileRepository;
         this.busCheckingService = busCheckingService;
         this.templateGenerator = templateGenerator;
-        this.name = actionName;
         this.defaultProfile = defaultProfile;
     }
 
     @Override
     public String getName() {
-        return name;
+        return NAME;
     }
 
     @Override
