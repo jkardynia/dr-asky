@@ -1,11 +1,11 @@
 package com.jkgroup.drasky.intent.model.parameter.type
 
-import com.jkgroup.drasky.intent.dto.DialogFlowRequest
-import com.jkgroup.drasky.intent.dto.QueryResultDto
+
 import spock.lang.Specification
 import spock.lang.Unroll
 
 import java.time.LocalDate
+import static com.jkgroup.drasky.fixtures.IntentRequestFactory.*
 
 class SysDateTests extends Specification{
 
@@ -14,7 +14,7 @@ class SysDateTests extends Specification{
         given:
         def sysDate = new SysDate()
         def paramName = 'sys_date_param_name'
-        def request = request([(paramName) : value, "any_other" : "some value"])
+        def request = requestWithParams([(paramName) : value, "any_other" : "some value"])
 
         when:
         def result = sysDate.getValue(request, paramName)
@@ -24,16 +24,12 @@ class SysDateTests extends Specification{
 
         where:
         value                       | expectedResult
-        "2011-12-03T10:15:30+01:00" | LocalDate.of(2011, 12, 03)
-        "2011-12-03T23:00:00+05:00" | LocalDate.of(2011, 12, 03)
-        "2011-12-03T23:00:00-05:00" | LocalDate.of(2011, 12, 03)
-        ""                          | LocalDate.now()
-        null                        | LocalDate.now()
-        new HashMap<>()             | LocalDate.now()
+        "2011-12-03T10:15:30+01:00" | Optional.of(LocalDate.of(2011, 12, 03))
+        "2011-12-03T23:00:00+05:00" | Optional.of(LocalDate.of(2011, 12, 03))
+        "2011-12-03T23:00:00-05:00" | Optional.of(LocalDate.of(2011, 12, 03))
+        ""                          | Optional.empty()
+        null                        | Optional.empty()
+        new HashMap<>()             | Optional.empty()
 
-    }
-
-    private DialogFlowRequest request(Map<String, Object> parameters){
-        new DialogFlowRequest("", "", new QueryResultDto("", "", parameters, null, null, [], [], null, null, null, null, null))
     }
 }

@@ -7,9 +7,6 @@ import com.jkgroup.drasky.intent.model.Action;
 
 import java.time.LocalDate;
 
-import static java.time.DayOfWeek.SUNDAY;
-import static java.time.temporal.TemporalAdjusters.*;
-
 @IntentAction
 public class IsMerchantSundayAction implements Action {
 
@@ -22,19 +19,11 @@ public class IsMerchantSundayAction implements Action {
 
     @Override
     public DialogFlowResponse execute(DialogFlowRequest request) {
-        boolean isMerchantSunday = isLastSundayInMonth();
+        boolean isMerchantSunday = CalendarUtil.isLastSundayInMonth(LocalDate.now());
 
         return DialogFlowResponse
                 .builder()
                 .fulfillmentText("Next Sunday shops are " + (isMerchantSunday ? "open" : "closed"))
                 .build();
-    }
-
-    private boolean isLastSundayInMonth() {
-        final LocalDate nextSunday = LocalDate.now().with(nextOrSame(SUNDAY));
-        final LocalDate monthLastSunday = LocalDate.now().with(lastDayOfMonth())
-                .with(previousOrSame(SUNDAY));
-
-        return nextSunday.equals(monthLastSunday);
     }
 }

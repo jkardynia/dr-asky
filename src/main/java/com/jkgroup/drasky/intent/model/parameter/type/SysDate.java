@@ -12,15 +12,14 @@ import java.util.Optional;
 public class SysDate implements ParameterType<LocalDate>{
     private Class<LocalDate> type = LocalDate.class;
 
-    public LocalDate getValue(DialogFlowRequest request, String name){
+    public Optional<LocalDate> getValue(DialogFlowRequest request, String name){
 
         return getFromRequest(request, name)
                 .filter(it -> it instanceof String)
                 .map(it -> String.class.cast(it) )
                 .filter(it -> !it.isEmpty())
                 .map(it -> ZonedDateTime.parse(it, AppConfiguration.DATE_TIME_FORMATTER))
-                .map(it -> it.toLocalDate())
-                .orElse(LocalDate.now());
+                .map(it -> it.toLocalDate());
     }
 
     private Optional<Object> getFromRequest(DialogFlowRequest request, String name){

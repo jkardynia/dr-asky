@@ -12,15 +12,14 @@ import java.util.Optional;
 public class SysTime implements ParameterType<LocalTime>{
     private Class<LocalTime> type = LocalTime.class;
 
-    public LocalTime getValue(DialogFlowRequest request, String name){
+    public Optional<LocalTime> getValue(DialogFlowRequest request, String name){
 
         return getFromRequest(request, name)
                 .filter(it -> it instanceof String)
                 .map(it -> String.class.cast(it) )
                 .filter(it -> !it.isEmpty())
                 .map(it -> ZonedDateTime.parse(it, AppConfiguration.DATE_TIME_FORMATTER))
-                .map(it -> it.toLocalTime())
-                .orElse(LocalTime.now());
+                .map(it -> it.toLocalTime());
     }
 
     private Optional<Object> getFromRequest(DialogFlowRequest request, String name){

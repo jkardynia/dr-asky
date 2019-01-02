@@ -12,14 +12,15 @@ import java.util.Optional;
 public class SysDuration implements ParameterType<Duration>{
     private Class<Duration> type = Duration.class;
 
-    public Duration getValue(DialogFlowRequest request, String name){
+    public Optional<Duration> getValue(DialogFlowRequest request, String name){
 
         return getFromRequest(request, name)
                 .filter(it -> it instanceof Map)
                 .map(it -> (Map<String, Object>) it)
-                .map(it -> com.jkgroup.drasky.intent.model.parameter.type.Duration.of(castToNumber(it.getOrDefault("amount", 0)), it.getOrDefault("unit", "s").toString()))
-                .map(it -> it.toJavaDuration())
-                .orElse(Duration.ZERO);
+                .filter(it -> it.containsKey("amount") && it.containsKey("unit"))
+                .filter(it -> castToNumber(it.get("amount")) != null)
+                .map(it -> com.jkgroup.drasky.intent.model.parameter.type.Duration.of(castToNumber(it.get("amount")), it.get("unit").toString()))
+                .flatMap(it -> it.toJavaDuration());
     }
 
     private Optional<Object> getFromRequest(DialogFlowRequest request, String name){
@@ -35,6 +36,6 @@ public class SysDuration implements ParameterType<Duration>{
             return (Integer) number;
         }
 
-        return 0;
+        return null;
     }
 }

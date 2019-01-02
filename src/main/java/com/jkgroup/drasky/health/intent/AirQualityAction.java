@@ -1,7 +1,7 @@
 package com.jkgroup.drasky.health.intent;
 
-import com.jkgroup.drasky.health.repository.AirQualityLocationsRepository;
 import com.jkgroup.drasky.health.Parameters;
+import com.jkgroup.drasky.health.repository.AirQualityLocationsRepository;
 import com.jkgroup.drasky.health.service.airly.AirQuality;
 import com.jkgroup.drasky.health.service.airly.AirlyService;
 import com.jkgroup.drasky.intent.IntentAction;
@@ -47,25 +47,16 @@ public class AirQualityAction implements Action {
 
     @Override
     public DialogFlowResponse execute(DialogFlowRequest request) {
-        String locationName = ParameterResolver.getSysAnyValue(request, Parameters.LOCATION.getName());
-        Location location = getLocation(locationName);
+        Location location = ParameterResolver.getSysAnyValue(request, Parameters.LOCATION.getName())
+                .flatMap(locationName -> airQualityLocationsRepository.findOneByAliasForProfile(defaultProfile, locationName))
+                .orElseGet(this::getProfileHomeLocation);
 
         AirQuality airQuality = airlyService.checkAirQuality(location.getLat(), location.getLng());
 
         return DialogFlowResponse
                 .builder()
-                .fulfillmentText(getFulfillmentText(locationName, airQuality))
+                .fulfillmentText(getFulfillmentText(location.getName(), airQuality))
                 .build();
-    }
-
-    private Location getLocation(String locationName) {
-
-        if(locationName.isEmpty()){
-            return getProfileHomeLocation();
-        }
-
-        return airQualityLocationsRepository.findOneByAliasForProfile(defaultProfile, locationName)
-                .orElseThrow(() -> IntentException.locationNotSet(locationName));
     }
 
     private String getFulfillmentText(String locationName, AirQuality airQuality) {
@@ -80,6 +71,6 @@ public class AirQualityAction implements Action {
     private Location getProfileHomeLocation() {
         return profileRepository.findOneByUsername(defaultProfile)
                 .map(it -> it.getHomeLocation())
-                .orElseThrow(() -> IntentException.profileHomeLocationNotSet(defaultProfile));
+                .orElseThrow(() -> IntentException.profileLocationNotSet(defaultProfile));
     }
 }

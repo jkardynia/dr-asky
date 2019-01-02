@@ -1,10 +1,9 @@
 package com.jkgroup.drasky.intent.model.parameter.type
 
-import com.jkgroup.drasky.intent.dto.DialogFlowRequest
-import com.jkgroup.drasky.intent.dto.QueryResultDto
+
 import spock.lang.Specification
 import spock.lang.Unroll
-
+import static com.jkgroup.drasky.fixtures.IntentRequestFactory.*
 class SysAnyTests extends Specification{
 
     @Unroll
@@ -12,7 +11,7 @@ class SysAnyTests extends Specification{
         given:
         def sysAny = new SysAny()
         def paramName = 'sys_any_param_name'
-        def request = request([(paramName) : value, "any_other" : "some value"])
+        def request = requestWithParams([(paramName) : value, "any_other" : "some value"])
 
         when:
         def result = sysAny.getValue(request, paramName)
@@ -22,14 +21,10 @@ class SysAnyTests extends Specification{
 
         where:
         value           | expectedResult
-        "my value"      | "my value"
-        ""              | ""
-        null            | ""
-        new HashMap<>() | ""
+        "my value"      | Optional.of("my value")
+        ""              | Optional.of("")
+        null            | Optional.empty()
+        new HashMap<>() | Optional.empty()
 
-    }
-
-    private DialogFlowRequest request(Map<String, Object> parameters){
-        new DialogFlowRequest("", "", new QueryResultDto("", "", parameters, null, null, [], [], null, null, null, null, null))
     }
 }

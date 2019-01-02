@@ -5,8 +5,8 @@ public class IntentException extends RuntimeException{
         super(message);
     }
 
-    public static IntentException profileHomeLocationNotSet(String profileName){
-        return new IntentException("Home location for profile " + profileName + " is not specified.");
+    public static IntentException profileLocationNotSet(String profileName){
+        return new IntentException("Location for profile " + profileName + " is not defined.");
     }
 
     public static IntentException locationNotSet(String locationName){
@@ -15,5 +15,9 @@ public class IntentException extends RuntimeException{
 
     public static IntentException intentActionNotFound(String actionName){
         return new IntentException("No action registered for intent action " + actionName);
+    }
+
+    public static IntentException mandatoryParameterIsMissing(String paramName){
+        return new IntentException("Parameter is missing - " + paramName);
     }
 }

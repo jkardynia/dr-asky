@@ -2,9 +2,10 @@ package com.jkgroup.drasky.intent.model
 
 import com.jkgroup.drasky.intent.dto.DialogFlowRequest
 import com.jkgroup.drasky.intent.dto.DialogFlowResponse
-import com.jkgroup.drasky.intent.dto.QueryResultDto
 import spock.lang.Specification
 import spock.lang.Unroll
+
+import static com.jkgroup.drasky.fixtures.IntentRequestFactory.*
 
 class IntentActionRouterTests extends Specification {
 
@@ -39,10 +40,6 @@ class IntentActionRouterTests extends Specification {
 
         then:
         thrown(IntentException)
-    }
-
-    private DialogFlowRequest request(String action){
-        new DialogFlowRequest("", "", new QueryResultDto("", action, [:], null, null, [], [], null, null, null, null, null))
     }
 }
 

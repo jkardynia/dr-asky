@@ -15,6 +15,6 @@ public class Profile {
 
     private String username;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.PERSIST)
     private Location homeLocation;
 }

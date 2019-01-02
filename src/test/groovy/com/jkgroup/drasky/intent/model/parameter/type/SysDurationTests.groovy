@@ -1,10 +1,10 @@
 package com.jkgroup.drasky.intent.model.parameter.type
 
-import com.jkgroup.drasky.intent.dto.DialogFlowRequest
-import com.jkgroup.drasky.intent.dto.QueryResultDto
+
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import static com.jkgroup.drasky.fixtures.IntentRequestFactory.*
 class SysDurationTests extends Specification{
 
     @Unroll
@@ -12,7 +12,7 @@ class SysDurationTests extends Specification{
         given:
         def sysDuration = new SysDuration()
         def paramName = 'sys_date_param_name'
-        def request = request([(paramName) : value, "any_other" : "some value"])
+        def request = requestWithParams([(paramName) : value, "any_other" : "some value"])
 
         when:
         def result = sysDuration.getValue(request, paramName)
@@ -22,23 +22,19 @@ class SysDurationTests extends Specification{
 
         where:
         value                                   | expectedResult
-        ["amount": 20, "unit": "s"]             | java.time.Duration.ofSeconds(20)
-        ["amount": 20, "unit": "min"]           | java.time.Duration.ofMinutes(20)
-        ["amount": 20, "unit": "h"]             | java.time.Duration.ofHours(20)
-        ["amount": 20, "unit": "day"]           | java.time.Duration.ofDays(20)
-        ["amount": 20.5, "unit": "s"]           | java.time.Duration.ofSeconds(20)
-        ""                                      | java.time.Duration.ZERO
-        null                                    | java.time.Duration.ZERO
-        [:]                                     | java.time.Duration.ZERO
-        "20s"                                   | java.time.Duration.ZERO
-        ["wrongName": "wrongValue"]             | java.time.Duration.ZERO
-        ["amount": 20, "unit": "wrong"]         | java.time.Duration.ZERO
-        ["amount": "not_a_number", "unit": "s"] | java.time.Duration.ZERO
-        ["amount": "20", "unit": "s"]           | java.time.Duration.ZERO
+        ["amount": 20, "unit": "s"]             | Optional.of(java.time.Duration.ofSeconds(20))
+        ["amount": 20, "unit": "min"]           | Optional.of(java.time.Duration.ofMinutes(20))
+        ["amount": 20, "unit": "h"]             | Optional.of(java.time.Duration.ofHours(20))
+        ["amount": 20, "unit": "day"]           | Optional.of(java.time.Duration.ofDays(20))
+        ["amount": 20.5, "unit": "s"]           | Optional.of(java.time.Duration.ofSeconds(20))
+        ""                                      | Optional.empty()
+        null                                    | Optional.empty()
+        [:]                                     | Optional.empty()
+        "20s"                                   | Optional.empty()
+        ["wrongName": "wrongValue"]             | Optional.empty()
+        ["amount": 20, "unit": "wrong"]         | Optional.empty()
+        ["amount": "not_a_number", "unit": "s"] | Optional.empty()
+        ["amount": "20", "unit": "s"]           | Optional.empty()
 
-    }
-
-    private DialogFlowRequest request(Map<String, Object> parameters){
-        new DialogFlowRequest("", "", new QueryResultDto("", "", parameters, null, null, [], [], null, null, null, null, null))
     }
 }

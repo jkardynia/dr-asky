@@ -9,12 +9,11 @@ import java.util.Optional;
 public class SysAny implements ParameterType<String>{
     private Class<String> type = String.class;
 
-    public String getValue(DialogFlowRequest request, String name){
+    public Optional<String> getValue(DialogFlowRequest request, String name){
 
         return getFromRequest(request, name)
                 .filter(it -> it instanceof String)
-                .map(it -> String.class.cast(it) )
-                .orElse("");
+                .map(it -> String.class.cast(it));
     }
 
     private Optional<Object> getFromRequest(DialogFlowRequest request, String name){

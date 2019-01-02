@@ -16,9 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.thymeleaf.context.Context;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Locale;
 
 @IntentAction
 public class FindBusAction implements Action {
@@ -52,7 +53,8 @@ public class FindBusAction implements Action {
     @Override
     public DialogFlowResponse execute(DialogFlowRequest request) {
         LocalDateTime dateTime = getRequestedDateTime(request);
-        String destination = ParameterResolver.getSysAnyValue(request, Parameters.DESTINATION.getName());
+        String destination = ParameterResolver.getSysAnyValue(request, Parameters.DESTINATION.getName())
+                .orElseThrow(() -> IntentException.mandatoryParameterIsMissing(Parameters.DESTINATION.getName()));
         BusInfo busInfo = busCheckingService.findBus(getProfileHomeLocation(), getAddress(destination), dateTime);
 
         return DialogFlowResponse
@@ -62,27 +64,23 @@ public class FindBusAction implements Action {
     }
 
     private LocalDateTime getRequestedDateTime(DialogFlowRequest request) {
-        Duration duration = ParameterResolver.getSysDurationValue(request, Parameters.DURATION.getName());
-
-        if(!Duration.ZERO.equals(duration)){
-            return LocalDateTime.now().plusSeconds(duration.getSeconds());
-        }
-
-        return LocalDateTime.of(ParameterResolver.getSysDateValue(request, Parameters.DATE.getName()),
-                ParameterResolver.getSysTimeValue(request, Parameters.TIME.getName()));
+        return ParameterResolver.getSysDurationValue(request, Parameters.DURATION.getName())
+                .map(duration -> LocalDateTime.now().plusSeconds(duration.getSeconds()))
+                .orElse(LocalDateTime.of(ParameterResolver.getSysDateValue(request, Parameters.DATE.getName()).orElse(LocalDate.now()),
+                    ParameterResolver.getSysTimeValue(request, Parameters.TIME.getName()).orElse(LocalTime.now())));
     }
 
     private String getProfileHomeLocation() {
         return profileRepository.findOneByUsername(defaultProfile)
                 .map(it -> it.getHomeLocation().getAddress())
-                .orElseThrow(() -> IntentException.profileHomeLocationNotSet(defaultProfile));
+                .orElseThrow(() -> IntentException.profileLocationNotSet(defaultProfile));
     }
 
     private String getFulfillmentText(String destination, BusInfo busInfo) {
 
-        Context context = new Context();
+        Context context = new Context(Locale.ENGLISH);
         context.setVariable("destination", destination);
-        context.setVariable("busInfo", busInfo);
+        context.setVariable("busNumber", busInfo.getBusNumber());
         context.setVariable("date", isToday(busInfo.getArrivalTime()) ? null : busInfo.getArrivalTime());
         context.setVariable("time", busInfo.getArrivalTime());
 
