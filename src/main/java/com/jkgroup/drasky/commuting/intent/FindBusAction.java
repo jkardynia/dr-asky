@@ -18,8 +18,9 @@ import org.thymeleaf.context.Context;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Locale;
+
+import static com.jkgroup.drasky.intent.CalendarUtil.*;
 
 @IntentAction
 public class FindBusAction implements Action {
@@ -52,22 +53,20 @@ public class FindBusAction implements Action {
 
     @Override
     public DialogFlowResponse execute(DialogFlowRequest request) {
-        LocalDateTime dateTime = getRequestedDateTime(request);
+        LocalDateTime dateTime = getLocalDateTimeFromNowOrDefault(
+                ParameterResolver.getSysDurationValue(request, Parameters.DURATION.getName()).orElse(null),
+                ParameterResolver.getSysDateValue(request, Parameters.DATE.getName()).orElse(null),
+                ParameterResolver.getSysTimeValue(request, Parameters.TIME.getName()).orElse(null));
+
         String destination = ParameterResolver.getSysAnyValue(request, Parameters.DESTINATION.getName())
                 .orElseThrow(() -> IntentException.mandatoryParameterIsMissing(Parameters.DESTINATION.getName()));
+
         BusInfo busInfo = busCheckingService.findBus(getProfileHomeLocation(), getAddress(destination), dateTime);
 
         return DialogFlowResponse
                 .builder()
                 .fulfillmentText(getFulfillmentText(destination, busInfo))
                 .build();
-    }
-
-    private LocalDateTime getRequestedDateTime(DialogFlowRequest request) {
-        return ParameterResolver.getSysDurationValue(request, Parameters.DURATION.getName())
-                .map(duration -> LocalDateTime.now().plusSeconds(duration.getSeconds()))
-                .orElse(LocalDateTime.of(ParameterResolver.getSysDateValue(request, Parameters.DATE.getName()).orElse(LocalDate.now()),
-                    ParameterResolver.getSysTimeValue(request, Parameters.TIME.getName()).orElse(LocalTime.now())));
     }
 
     private String getProfileHomeLocation() {
