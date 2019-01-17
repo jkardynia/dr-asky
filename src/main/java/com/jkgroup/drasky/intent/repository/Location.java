@@ -1,5 +1,6 @@
 package com.jkgroup.drasky.intent.repository;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode
 public class Location {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

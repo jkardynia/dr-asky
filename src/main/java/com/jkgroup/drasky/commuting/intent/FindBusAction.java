@@ -9,8 +9,11 @@ import com.jkgroup.drasky.intent.TemplateGenerator;
 import com.jkgroup.drasky.intent.dto.DialogFlowRequest;
 import com.jkgroup.drasky.intent.dto.DialogFlowResponse;
 import com.jkgroup.drasky.intent.model.Action;
+import com.jkgroup.drasky.intent.model.IntentClientException;
 import com.jkgroup.drasky.intent.model.IntentException;
 import com.jkgroup.drasky.intent.model.parameter.ParameterResolver;
+import com.jkgroup.drasky.intent.repository.Location;
+import com.jkgroup.drasky.intent.repository.Profile;
 import com.jkgroup.drasky.intent.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,9 +21,10 @@ import org.thymeleaf.context.Context;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Locale;
 
-import static com.jkgroup.drasky.intent.CalendarUtil.*;
+import static com.jkgroup.drasky.intent.CalendarUtil.getLocalDateTimeFromNowOrDefault;
 
 @IntentAction
 public class FindBusAction implements Action {
@@ -53,15 +57,12 @@ public class FindBusAction implements Action {
 
     @Override
     public DialogFlowResponse execute(DialogFlowRequest request) {
-        LocalDateTime dateTime = getLocalDateTimeFromNowOrDefault(
-                ParameterResolver.getSysDurationValue(request, Parameters.DURATION.getName()).orElse(null),
-                ParameterResolver.getSysDateValue(request, Parameters.DATE.getName()).orElse(null),
-                ParameterResolver.getSysTimeValue(request, Parameters.TIME.getName()).orElse(null));
 
-        String destination = ParameterResolver.getSysAnyValue(request, Parameters.DESTINATION.getName())
-                .orElseThrow(() -> IntentException.mandatoryParameterIsMissing(Parameters.DESTINATION.getName()));
+        Profile profile = getDefaultProfile();
+        LocalDateTime dateTime = getRequestedDateTime(request, profile.getTimezone());
+        String destination = getDestination(request);
 
-        BusInfo busInfo = busCheckingService.findBus(getProfileHomeLocation(), getAddress(destination), dateTime);
+        BusInfo busInfo = busCheckingService.findBus(profile.getHomeLocation(), getLocation(destination), dateTime);
 
         return DialogFlowResponse
                 .builder()
@@ -69,10 +70,24 @@ public class FindBusAction implements Action {
                 .build();
     }
 
-    private String getProfileHomeLocation() {
+    private String getDestination(DialogFlowRequest request) {
+        return ParameterResolver.getSysAnyValue(request, Parameters.DESTINATION.getName())
+                .orElseThrow(() -> IntentException.mandatoryParameterIsMissing(Parameters.DESTINATION.getName()));
+    }
+
+    private LocalDateTime getRequestedDateTime(DialogFlowRequest request, String timeZone) {
+        return getLocalDateTimeFromNowOrDefault(
+                ParameterResolver.getSysDurationValue(request, Parameters.DURATION.getName()).orElse(null),
+                ParameterResolver.getSysDateValue(request, Parameters.DATE.getName()).orElse(null),
+                ParameterResolver.getSysTimeValue(request, Parameters.TIME.getName()).orElse(null)
+        )
+        .withZoneSameInstant(ZoneId.of(timeZone))
+        .toLocalDateTime();
+    }
+
+    private Profile getDefaultProfile() {
         return profileRepository.findOneByUsername(defaultProfile)
-                .map(it -> it.getHomeLocation().getAddress())
-                .orElseThrow(() -> IntentException.profileLocationNotSet(defaultProfile));
+            .orElseThrow(() -> IntentException.profileLocationNotSet(defaultProfile));
     }
 
     private String getFulfillmentText(String destination, BusInfo busInfo) {
@@ -86,10 +101,9 @@ public class FindBusAction implements Action {
         return templateGenerator.parse("ssml-templates/find-bus.ssml", context);
     }
 
-    private String getAddress(String alias){
+    private Location getLocation(String alias){
         return busLocationsRepository.findOneByAliasForProfile(defaultProfile, alias.toLowerCase())
-                .map(it -> it.getAddress())
-                .orElse(alias);
+                .orElseThrow(() -> IntentClientException.locationNotSet(alias));
     }
 
     private boolean isToday(LocalDateTime date){

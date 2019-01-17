@@ -9,6 +9,7 @@ class ProfileFactory {
         def profile = new Profile()
         profile.setUsername(profileName)
         profile.setHomeLocation(location)
+        profile.setTimezone("Europe/Warsaw")
         profile
     }
 

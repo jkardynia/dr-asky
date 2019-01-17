@@ -1,13 +1,11 @@
 package com.jkgroup.drasky.intent
 
+
 import com.jkgroup.drasky.intent.CalendarUtil
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import java.time.Duration
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
+import java.time.*
 
 class CalendarUtilTests extends Specification{
 
@@ -43,10 +41,10 @@ class CalendarUtilTests extends Specification{
 
         where:
         duration     | date           | time         | expectedResult
-        dur(2) | date(2018,1,1) | time(10, 20) | LocalDateTime.now().plusHours(2)
-        null         | null           | null         | LocalDateTime.now()
-        null         | date(2018,1,1) | time(10, 20) | LocalDateTime.of(2018,1,1,10,20)
-        null         | null           | time(10, 20) | LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 20))
+        dur(2) | date(2018,1,1) | time(10, 20) | ZonedDateTime.now().plusHours(2)
+        null         | null           | null         | ZonedDateTime.now()
+        null         | date(2018,1,1) | time(10, 20) | ZonedDateTime.of(2018, 1, 1, 10, 20, 0, 0, ZoneId.systemDefault())
+        null         | null           | time(10, 20) | ZonedDateTime.of(LocalDate.now(), LocalTime.of(10, 20), ZoneId.systemDefault())
     }
 
     private Duration dur(int hours) {

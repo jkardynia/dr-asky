@@ -17,4 +17,6 @@ public class Profile {
 
     @OneToOne(cascade=CascadeType.PERSIST)
     private Location homeLocation;
+
+    private String timezone = "UTC";
 }

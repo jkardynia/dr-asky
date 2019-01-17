@@ -1,16 +1,26 @@
 package com.jkgroup.drasky.commuting.bus;
 
+import com.jkgroup.drasky.commuting.repository.BusRouteRepository;
+import com.jkgroup.drasky.intent.repository.Location;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Service
 public class BusCheckingService {
-    public BusInfo findBus(String startingLocation, String destination, LocalDateTime time){
-        return new BusInfo("144", getRandomArrivalTime(time));
+
+    private BusCheckingCracowService cracow;
+
+    private BusRouteRepository busRouteRepository;
+
+    @Autowired
+    public BusCheckingService(BusCheckingCracowService cracow, BusRouteRepository busRouteRepository){
+        this.cracow = cracow;
+        this.busRouteRepository = busRouteRepository;
     }
 
-    private LocalDateTime getRandomArrivalTime(LocalDateTime time) {
-        return time.plusMinutes((long)Math.floor(Math.random()*50));
+    public BusInfo findBus(Location startingLocation, Location destination, LocalDateTime afterDate){
+        return cracow.findBus(busRouteRepository.findByFromAndTo(startingLocation, destination), afterDate);
     }
 }

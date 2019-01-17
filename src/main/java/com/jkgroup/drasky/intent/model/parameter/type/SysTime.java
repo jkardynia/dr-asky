@@ -19,7 +19,7 @@ public class SysTime implements ParameterType<LocalTime>{
                 .map(it -> String.class.cast(it) )
                 .filter(it -> !it.isEmpty())
                 .map(it -> ZonedDateTime.parse(it, AppConfiguration.DATE_TIME_FORMATTER))
-                .map(it -> it.toLocalTime());
+                .map(it -> it.toLocalTime()); // DialogFLowApi will send date with timezone of currently logged in user (which should be same as Profile timezone) so timezone can be skipped for now
     }
 
     private Optional<Object> getFromRequest(DialogFlowRequest request, String name){

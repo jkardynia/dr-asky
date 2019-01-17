@@ -40,6 +40,17 @@
        id integer not null,
         username varchar(255),
         home_location_id integer,
+        timezone varchar(255),
+        primary key (id)
+    ) engine=InnoDB;
+
+    create table bus_route (
+       id integer not null,
+        direction varchar(255),
+        line_number varchar(255),
+        stop_name varchar(255),
+        from_id integer,
+        to_id integer,
         primary key (id)
     ) engine=InnoDB;
 
@@ -83,3 +94,13 @@
        add constraint FKffq40r025795kpqto462bcx4l 
        foreign key (home_location_id)
        references location (id);
+
+    alter table bus_route
+           add constraint FKffq40r025795kpqto462zxc0l
+           foreign key (from_id)
+           references location (id);
+
+    alter table bus_route
+               add constraint FKffq40r025795kpqto462zxc1l
+               foreign key (to_id)
+               references location (id);
