@@ -1,0 +1,14 @@
+runtime: java
+env: flex
+runtime_config:
+  jdk: openjdk8
+handlers:
+- url: '/.*'
+  script: unused
+manual_scaling:
+  instances: 1
+inbound_services:
+- warmup
+
+env_variables:
+  SPRING_PROFILES_ACTIVE: "gcloud"

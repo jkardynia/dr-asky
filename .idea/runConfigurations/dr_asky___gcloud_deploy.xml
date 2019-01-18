@@ -10,8 +10,9 @@
           </option>
           <option name="goals">
             <list>
+              <option value="clean" />
+              <option value="package" />
               <option value="appengine:deploy" />
-              <option value="-Pgcloud" />
               <option value="-DskipTests=true" />
             </list>
           </option>
