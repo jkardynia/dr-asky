@@ -1,6 +1,7 @@
 package com.jkgroup.drasky.intent;
 
 import java.time.*;
+import java.util.Arrays;
 import java.util.Optional;
 
 import static java.time.DayOfWeek.SUNDAY;
@@ -23,4 +24,14 @@ public class CalendarUtil {
                         Optional.ofNullable(time).orElse(LocalTime.now()),
                         ZoneId.systemDefault()));
     }
+
+    public static boolean isWeekDay(LocalDateTime date){
+        if(Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY)
+                .contains(DayOfWeek.from(date))){
+            return true;
+        }
+
+        return false;
+    }
+
 }

@@ -18,6 +18,13 @@ public class IntentClientException extends RuntimeException {
         this.parameters = params;
     }
 
+    public IntentClientException(String message, String translationKey){
+        super(message);
+
+        this.translationKey = translationKey;
+        this.parameters = new HashMap<>();
+    }
+
     public static IntentClientException locationNotSet(String locationName){
         Map<String, String> params = new HashMap<>();
         params.put("location", locationName);

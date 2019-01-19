@@ -1,6 +1,8 @@
 package com.jkgroup.drasky.commuting.bus;
 
+import com.jkgroup.drasky.common.holidays.Holidays;
 import com.jkgroup.drasky.commuting.repository.BusRoute;
+import com.jkgroup.drasky.intent.CalendarUtil;
 import com.jkgroup.drasky.intent.model.IntentClientException;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -21,6 +23,9 @@ import java.util.stream.Collectors;
 public class BusCheckingCracowService {
 
     private Client client;
+    private Holidays holidays;
+
+    private static final Locale LOCALE = Locale.forLanguageTag("pl-PL");
 
     private static final String HOUR_COLUMN_NAME = "Hour";
     private static final String WORKDAY_COLUMN_NAME = "Workday";
@@ -28,8 +33,9 @@ public class BusCheckingCracowService {
     private static final String HOLIDAY_COLUMN_NAME = "Holidays";
 
     @Autowired
-    public BusCheckingCracowService(@Value("${bus-time-table.cracow.base-url}") String baseUrl){
+    public BusCheckingCracowService(@Value("${bus-time-table.cracow.base-url}") String baseUrl, Holidays holidays){
         client = new Client(baseUrl);
+        this.holidays = holidays;
     }
 
     public BusInfo findBus(List<BusRoute> busRoutes, LocalDateTime dateTimeAfter){
@@ -42,53 +48,40 @@ public class BusCheckingCracowService {
         // Czw/Pt	Pt/Sob-Sob/Nd	Nd/Pon
 
         TimeTable timeTable = getTimeTable(busRoute, directionId, stopId);
+        LocalTime nextArrivalTime = getNextArrivalTime(dateTimeAfter, timeTable)
+                .orElseThrow(() -> new IntentClientException("Cannot find next bus today", "Cannot find next bus today")); //todo should search next day instead;
 
-        LocalTime nextTime;
-        if(Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY)
-                .contains(DayOfWeek.from(dateTimeAfter))){
-            nextTime = getForWorkDay(dateTimeAfter, timeTable);
-        }else if(DayOfWeek.SATURDAY.equals(DayOfWeek.from(dateTimeAfter))){
-            nextTime = getForSaturday(dateTimeAfter, timeTable);
-        }else if(DayOfWeek.SUNDAY.equals(DayOfWeek.from(dateTimeAfter))){  // todo use holiday calendar not only SUNDAY
-            nextTime = getForHoliday(dateTimeAfter, timeTable);
-        }else{
-            throw new IntentClientException("Something went wrong. Day " + DayOfWeek.from(dateTimeAfter) + " not supported.", "Something went wrong. Day " + DayOfWeek.from(dateTimeAfter) + " not supported.", new HashMap<>());
-        }
-
-        return new BusInfo(busRoute.getLineNumber(), dateTimeAfter.with(nextTime));
+        return new BusInfo(busRoute.getLineNumber(), dateTimeAfter.with(nextArrivalTime));
     }
 
-    private LocalTime getForWorkDay(LocalDateTime dateTimeAfter, TimeTable timeTable) {
-        if(timeTable.getWorkday().isEmpty()){ //todo should search next day instead
-            throw new IntentClientException("Cannot find next bus today", "Cannot find next bus today", new HashMap<>());
+    private Optional<LocalTime> getNextArrivalTime(LocalDateTime dateTimeAfter, TimeTable timeTable) {
+        if(DayOfWeek.SUNDAY.equals(DayOfWeek.from(dateTimeAfter)) || holidays.isHoliday(LOCALE, dateTimeAfter.toLocalDate())){
+            return getForHoliday(dateTimeAfter, timeTable);
+        }else if(DayOfWeek.SATURDAY.equals(DayOfWeek.from(dateTimeAfter))){
+            return getForSaturday(dateTimeAfter, timeTable);
+        }else if(CalendarUtil.isWeekDay(dateTimeAfter)){
+            return getForWorkDay(dateTimeAfter, timeTable);
         }
 
+        throw new IntentClientException("Something went wrong. Day " + DayOfWeek.from(dateTimeAfter) + " not supported.", "Something went wrong. Day " + DayOfWeek.from(dateTimeAfter) + " not supported.");
+    }
+
+    private Optional<LocalTime> getForWorkDay(LocalDateTime dateTimeAfter, TimeTable timeTable) {
         return timeTable.getWorkday().stream()
                 .filter(time -> time.isAfter(dateTimeAfter.toLocalTime()))
-                .findFirst()
-                .orElse(timeTable.getWorkday().get(0)); // todo next day may be holiday or saturday or workday
+                .findFirst();
     }
 
-    private LocalTime getForSaturday(LocalDateTime dateTimeAfter, TimeTable timeTable) {
-        if(timeTable.getSaturday().isEmpty()){//todo should search next day instead
-            throw new IntentClientException("Cannot find next bus today", "Cannot find next bus today", new HashMap<>());
-        }
-
+    private Optional<LocalTime> getForSaturday(LocalDateTime dateTimeAfter, TimeTable timeTable) {
         return timeTable.getSaturday().stream()
                 .filter(time -> time.isAfter(dateTimeAfter.toLocalTime()))
-                .findFirst()
-                .orElse(timeTable.getHoliday().get(0));
+                .findFirst();
     }
 
-    private LocalTime getForHoliday(LocalDateTime dateTimeAfter, TimeTable timeTable) {
-        if(timeTable.getHoliday().isEmpty()){//todo should search next day instead
-            throw new IntentClientException("Cannot find next bus today", "Cannot find next bus today", new HashMap<>());
-        }
-
+    private Optional<LocalTime> getForHoliday(LocalDateTime dateTimeAfter, TimeTable timeTable) {
         return timeTable.getHoliday().stream()
                 .filter(time -> time.isAfter(dateTimeAfter.toLocalTime()))
-                .findFirst()
-                .orElse(timeTable.getWorkday().get(0)); // todo next day may be workday, saturday or holiday
+                .findFirst();
     }
 
     private String getDirectionId(BusRoute busRoute) {
