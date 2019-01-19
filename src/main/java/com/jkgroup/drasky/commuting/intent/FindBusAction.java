@@ -1,6 +1,5 @@
 package com.jkgroup.drasky.commuting.intent;
 
-import com.jkgroup.drasky.commuting.Parameters;
 import com.jkgroup.drasky.commuting.bus.BusCheckingService;
 import com.jkgroup.drasky.commuting.bus.BusInfo;
 import com.jkgroup.drasky.commuting.repository.BusLocationsRepository;
@@ -12,9 +11,12 @@ import com.jkgroup.drasky.intent.model.Action;
 import com.jkgroup.drasky.intent.model.IntentClientException;
 import com.jkgroup.drasky.intent.model.IntentException;
 import com.jkgroup.drasky.intent.model.parameter.ParameterResolver;
+import com.jkgroup.drasky.intent.model.parameter.type.*;
 import com.jkgroup.drasky.intent.repository.Location;
 import com.jkgroup.drasky.intent.repository.Profile;
 import com.jkgroup.drasky.intent.repository.ProfileRepository;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.thymeleaf.context.Context;
@@ -108,5 +110,17 @@ public class FindBusAction implements Action {
 
     private boolean isToday(LocalDateTime date){
         return LocalDate.now().equals(date.toLocalDate());
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public enum Parameters {
+        DESTINATION("destination", SysAny.class),
+        DURATION("duration", SysDuration.class),
+        DATE("date", SysDate.class),
+        TIME("time", SysTime.class);
+
+        private String name;
+        private Class<? extends ParameterType<?>> type;
     }
 }

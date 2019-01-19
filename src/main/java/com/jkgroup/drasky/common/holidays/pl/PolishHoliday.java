@@ -1,21 +1,15 @@
 package com.jkgroup.drasky.common.holidays.pl;
 
-import com.google.common.collect.Lists;
 import com.jkgroup.drasky.common.holidays.Holiday;
-import com.jkgroup.drasky.common.holidays.HolidaysRegistry;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.stereotype.Component;
 
 import java.time.MonthDay;
-import java.util.List;
-import java.util.Locale;
 import java.util.function.Supplier;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Component
-public enum PolishHoliday implements Holiday, HolidaysRegistry {
+enum PolishHoliday implements Holiday {
     NEW_YEAR("New Year's Day", () -> MonthDay.of(1, 1)),
     EPIPHANY("Epiphany",() -> MonthDay.of(1, 6)),
     EASTER_SUNDAY("Easter Sunday", new EasterSundaySupplier()),
@@ -36,15 +30,5 @@ public enum PolishHoliday implements Holiday, HolidaysRegistry {
 
     public MonthDay getMothDay(){
         return monthDaySupplier.get();
-    }
-
-    @Override
-    public List<Holiday> getAll() {
-        return Lists.newArrayList(values());
-    }
-
-    @Override
-    public Locale getLocale() {
-        return Locale.forLanguageTag("pl-PL");
     }
 }

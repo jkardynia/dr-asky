@@ -1,6 +1,5 @@
 package com.jkgroup.drasky.health.intent;
 
-import com.jkgroup.drasky.health.Parameters;
 import com.jkgroup.drasky.health.repository.AirQualityLocationsRepository;
 import com.jkgroup.drasky.health.service.airly.AirQuality;
 import com.jkgroup.drasky.health.service.airly.AirlyService;
@@ -11,8 +10,12 @@ import com.jkgroup.drasky.intent.dto.DialogFlowResponse;
 import com.jkgroup.drasky.intent.model.Action;
 import com.jkgroup.drasky.intent.model.IntentException;
 import com.jkgroup.drasky.intent.model.parameter.ParameterResolver;
+import com.jkgroup.drasky.intent.model.parameter.type.ParameterType;
+import com.jkgroup.drasky.intent.model.parameter.type.SysAny;
 import com.jkgroup.drasky.intent.repository.Location;
 import com.jkgroup.drasky.intent.repository.ProfileRepository;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.thymeleaf.context.Context;
@@ -72,5 +75,14 @@ public class AirQualityAction implements Action {
         return profileRepository.findOneByUsername(defaultProfile)
                 .map(it -> it.getHomeLocation())
                 .orElseThrow(() -> IntentException.profileLocationNotSet(defaultProfile));
+    }
+    
+    @AllArgsConstructor
+    @Getter
+    public enum Parameters {
+        LOCATION("location", SysAny.class);
+
+        private String name;
+        private Class<? extends ParameterType<?>> type;
     }
 }
