@@ -1,7 +1,7 @@
 package com.jkgroup.drasky.common.holidays;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.google.common.collect.Lists;
+import com.jkgroup.drasky.common.holidays.pl.PolishHolidayRegistry;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -13,15 +13,17 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-@Service
 public class Holidays {
 
     private Map<Locale, List<Holiday>> holidays;
 
-    @Autowired
     public Holidays(List<HolidaysRegistry> holidaysRegistries){
         holidays = holidaysRegistries.stream()
                 .collect(Collectors.toMap(HolidaysRegistry::getLocale, HolidaysRegistry::getAll));
+    }
+
+    public static Holidays getDefault(){
+        return new Holidays(Lists.newArrayList(new PolishHolidayRegistry()));
     }
 
     public boolean isHoliday(Locale locale, LocalDate date){
