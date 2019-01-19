@@ -1,0 +1,6 @@
+cron:
+- description: "warm up"
+  url: /readiness_check
+  schedule: every 10 minutes
+
+#  gcloud app deploy cron.yaml

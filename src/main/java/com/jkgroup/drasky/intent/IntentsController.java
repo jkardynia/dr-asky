@@ -4,6 +4,7 @@ import com.jkgroup.drasky.intent.dto.DialogFlowRequest;
 import com.jkgroup.drasky.intent.dto.DialogFlowResponse;
 import com.jkgroup.drasky.intent.model.IntentActionRouter;
 import com.jkgroup.drasky.intent.model.IntentClientException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("dr-asky")
+@Slf4j
 public class IntentsController {
 
     private IntentActionRouter intentActionRouter;
@@ -33,6 +35,8 @@ public class IntentsController {
         try {
             return intentActionRouter.executeAction(request);
         }catch(IntentClientException e){
+            log.error(e.getMessage(), e);
+
             return DialogFlowResponse
                     .builder()
                     .fulfillmentText(messageSource.getMessage(e.getTranslationKey(),
