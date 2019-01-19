@@ -1,19 +1,22 @@
 package com.jkgroup.drasky.holiday;
 
+import com.jkgroup.drasky.common.holidays.Holiday;
 import com.jkgroup.drasky.common.holidays.Holidays;
 import com.jkgroup.drasky.intent.IntentAction;
 import com.jkgroup.drasky.intent.dto.DialogFlowRequest;
 import com.jkgroup.drasky.intent.dto.DialogFlowResponse;
 import com.jkgroup.drasky.intent.model.Action;
-import com.jkgroup.drasky.intent.model.parameter.ParameterResolver;
-import com.jkgroup.drasky.intent.model.parameter.type.ParameterType;
-import com.jkgroup.drasky.intent.model.parameter.type.SysDate;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import com.jkgroup.drasky.intent.model.parameter.type.SysDatePeriod;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
+import java.time.Month;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+
+import static com.jkgroup.drasky.holiday.HolidaysCheckAction.Parameters.month;
 
 @IntentAction
 public class HolidaysCheckAction implements Action {
@@ -33,22 +36,23 @@ public class HolidaysCheckAction implements Action {
 
     @Override
     public DialogFlowResponse execute(DialogFlowRequest request) {
-        LocalDate date = ParameterResolver.getSysDateValue(request, Parameters.DATE.getName()).orElse(LocalDate.now());
+        Month month = month(request.getQueryResult().getParameters())
+                .orElse(LocalDate.now().getMonth());
 
-        int numberOfHolidays = holidays.getAllIn(Locale.forLanguageTag("pl-PL"), date.getMonth()).size();
+        List<Holiday> holidaysInMonth = holidays.getAllIn(Locale.forLanguageTag("pl-PL"), month);
 
         return DialogFlowResponse
                 .builder()
-                .fulfillmentText("There is " + numberOfHolidays + " in this month")
+                .fulfillmentText("There is " + holidaysInMonth.size() + " in this month")
                 .build();
     }
 
-    @AllArgsConstructor
-    @Getter
-    public enum Parameters {
-        DATE("date", SysDate.class);
+    public static class Parameters {
+        private static final String MONTH_PARAMETER = "month";
 
-        private String name;
-        private Class<? extends ParameterType<?>> type;
+        public static Optional<Month> month(Map<String, Object> params){
+            return new SysDatePeriod().getValue(MONTH_PARAMETER, params)
+                    .map(it -> it.getStartDate().getMonth());
+        }
     }
 }

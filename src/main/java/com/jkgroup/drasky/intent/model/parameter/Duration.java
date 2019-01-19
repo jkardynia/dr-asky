@@ -1,4 +1,4 @@
-package com.jkgroup.drasky.intent.model.parameter.type;
+package com.jkgroup.drasky.intent.model.parameter;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,11 +1,9 @@
 package com.jkgroup.drasky.intent.model.parameter.type
 
-
 import spock.lang.Specification
 import spock.lang.Unroll
 
 import java.time.LocalDate
-import static com.jkgroup.drasky.fixtures.IntentRequestFactory.*
 
 class SysDateTests extends Specification{
 
@@ -14,10 +12,9 @@ class SysDateTests extends Specification{
         given:
         def sysDate = new SysDate()
         def paramName = 'sys_date_param_name'
-        def request = requestWithParams([(paramName) : value, "any_other" : "some value"])
 
         when:
-        def result = sysDate.getValue(request, paramName)
+        def result = sysDate.getValue(paramName, [(paramName) : value, "any_other" : "some value"])
 
         then:
         result == expectedResult

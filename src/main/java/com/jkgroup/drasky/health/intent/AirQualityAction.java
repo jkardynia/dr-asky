@@ -9,16 +9,17 @@ import com.jkgroup.drasky.intent.dto.DialogFlowRequest;
 import com.jkgroup.drasky.intent.dto.DialogFlowResponse;
 import com.jkgroup.drasky.intent.model.Action;
 import com.jkgroup.drasky.intent.model.IntentException;
-import com.jkgroup.drasky.intent.model.parameter.ParameterResolver;
-import com.jkgroup.drasky.intent.model.parameter.type.ParameterType;
 import com.jkgroup.drasky.intent.model.parameter.type.SysAny;
 import com.jkgroup.drasky.intent.repository.Location;
 import com.jkgroup.drasky.intent.repository.ProfileRepository;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.thymeleaf.context.Context;
+
+import java.util.Map;
+import java.util.Optional;
+
+import static com.jkgroup.drasky.health.intent.AirQualityAction.Parameters.location;
 
 @IntentAction
 public class AirQualityAction implements Action {
@@ -50,7 +51,7 @@ public class AirQualityAction implements Action {
 
     @Override
     public DialogFlowResponse execute(DialogFlowRequest request) {
-        Location location = ParameterResolver.getSysAnyValue(request, Parameters.LOCATION.getName())
+        Location location = location(request.getQueryResult().getParameters())
                 .flatMap(locationName -> airQualityLocationsRepository.findOneByAliasForProfile(defaultProfile, locationName))
                 .orElseGet(this::getProfileHomeLocation);
 
@@ -76,13 +77,12 @@ public class AirQualityAction implements Action {
                 .map(it -> it.getHomeLocation())
                 .orElseThrow(() -> IntentException.profileLocationNotSet(defaultProfile));
     }
-    
-    @AllArgsConstructor
-    @Getter
-    public enum Parameters {
-        LOCATION("location", SysAny.class);
 
-        private String name;
-        private Class<? extends ParameterType<?>> type;
+    public static class Parameters {
+        private static final String LOCATION_PARAMETER = "location";
+
+        public static Optional<String> location(Map<String, Object> params){
+            return new SysAny().getValue(LOCATION_PARAMETER, params);
+        }
     }
 }

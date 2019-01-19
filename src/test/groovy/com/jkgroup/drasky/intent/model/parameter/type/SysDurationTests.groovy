@@ -1,10 +1,8 @@
 package com.jkgroup.drasky.intent.model.parameter.type
 
-
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static com.jkgroup.drasky.fixtures.IntentRequestFactory.*
 class SysDurationTests extends Specification{
 
     @Unroll
@@ -12,10 +10,9 @@ class SysDurationTests extends Specification{
         given:
         def sysDuration = new SysDuration()
         def paramName = 'sys_date_param_name'
-        def request = requestWithParams([(paramName) : value, "any_other" : "some value"])
 
         when:
-        def result = sysDuration.getValue(request, paramName)
+        def result = sysDuration.getValue(paramName, [(paramName) : value, "any_other" : "some value"])
 
         then:
         result == expectedResult

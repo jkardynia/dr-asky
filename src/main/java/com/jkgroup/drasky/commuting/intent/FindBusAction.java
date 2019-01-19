@@ -10,23 +10,24 @@ import com.jkgroup.drasky.intent.dto.DialogFlowResponse;
 import com.jkgroup.drasky.intent.model.Action;
 import com.jkgroup.drasky.intent.model.IntentClientException;
 import com.jkgroup.drasky.intent.model.IntentException;
-import com.jkgroup.drasky.intent.model.parameter.ParameterResolver;
-import com.jkgroup.drasky.intent.model.parameter.type.*;
+import com.jkgroup.drasky.intent.model.parameter.type.SysAny;
+import com.jkgroup.drasky.intent.model.parameter.type.SysDate;
+import com.jkgroup.drasky.intent.model.parameter.type.SysDuration;
+import com.jkgroup.drasky.intent.model.parameter.type.SysTime;
 import com.jkgroup.drasky.intent.repository.Location;
 import com.jkgroup.drasky.intent.repository.Profile;
 import com.jkgroup.drasky.intent.repository.ProfileRepository;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.thymeleaf.context.Context;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
 
 import static com.jkgroup.drasky.intent.CalendarUtil.getLocalDateTimeFromNowOrDefault;
+import static com.jkgroup.drasky.commuting.intent.FindBusAction.Parameters.*;
 
 @IntentAction
 public class FindBusAction implements Action {
@@ -73,15 +74,15 @@ public class FindBusAction implements Action {
     }
 
     private String getDestination(DialogFlowRequest request) {
-        return ParameterResolver.getSysAnyValue(request, Parameters.DESTINATION.getName())
-                .orElseThrow(() -> IntentException.mandatoryParameterIsMissing(Parameters.DESTINATION.getName()));
+        return destination(request.getQueryResult().getParameters())
+                .orElseThrow(() -> IntentException.mandatoryParameterIsMissing(DESTINATION_PARAMETER));
     }
 
     private LocalDateTime getRequestedDateTime(DialogFlowRequest request, String timeZone) {
         return getLocalDateTimeFromNowOrDefault(
-                ParameterResolver.getSysDurationValue(request, Parameters.DURATION.getName()).orElse(null),
-                ParameterResolver.getSysDateValue(request, Parameters.DATE.getName()).orElse(null),
-                ParameterResolver.getSysTimeValue(request, Parameters.TIME.getName()).orElse(null)
+                duration(request.getQueryResult().getParameters()).orElse(null),
+                date(request.getQueryResult().getParameters()).orElse(null),
+                time(request.getQueryResult().getParameters()).orElse(null)
         )
         .withZoneSameInstant(ZoneId.of(timeZone))
         .toLocalDateTime();
@@ -112,15 +113,26 @@ public class FindBusAction implements Action {
         return LocalDate.now().equals(date.toLocalDate());
     }
 
-    @AllArgsConstructor
-    @Getter
-    public enum Parameters {
-        DESTINATION("destination", SysAny.class),
-        DURATION("duration", SysDuration.class),
-        DATE("date", SysDate.class),
-        TIME("time", SysTime.class);
+    public static class Parameters {
+        public static final String DESTINATION_PARAMETER = "destination";
+        public static final String DURATION_PARAMETER = "duration";
+        public static final String DATE_PARAMETER = "date";
+        public static final String TIME_PARAMETER = "time";
 
-        private String name;
-        private Class<? extends ParameterType<?>> type;
+        public static Optional<String> destination(Map<String, Object> params){
+            return new SysAny().getValue(DESTINATION_PARAMETER, params);
+        }
+
+        public static Optional<Duration> duration(Map<String, Object> params){
+            return new SysDuration().getValue(DURATION_PARAMETER, params);
+        }
+
+        public static Optional<LocalDate> date(Map<String, Object> params){
+            return new SysDate().getValue(DATE_PARAMETER, params);
+        }
+
+        public static Optional<LocalTime> time(Map<String, Object> params){
+            return new SysTime().getValue(TIME_PARAMETER, params);
+        }
     }
 }
