@@ -113,6 +113,7 @@ public class BusCheckingCracowService {
         return lineAndDirectionAndStop[2];
     }
 
+    // todo cache that, and schedule refreshing cache at 2 a.m.
     private TimeTable getTimeTable(BusRoute busRoute, String directionId, String stopId) {
         Document timeTableDocument = client.getTimeTable(busRoute.getLineNumber(), directionId, stopId);
 

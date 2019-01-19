@@ -21,6 +21,8 @@ public class BusCheckingService {
     }
 
     public BusInfo findBus(Location startingLocation, Location destination, LocalDateTime afterDate){
+
+        //todo check startingLocation city and make assertion here
         return cracow.findBus(busRouteRepository.findByFromAndTo(startingLocation, destination), afterDate);
     }
 }
