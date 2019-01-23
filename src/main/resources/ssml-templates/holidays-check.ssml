@@ -1,0 +1,13 @@
+<speak>
+    [# th:if="${holidays.isEmpty}"]
+        <s>There is no holidays in [(${month})]</s>
+    [/]
+    [# th:unless="${holidays.isEmpty}"]
+    <s>Number of holidays in [(${month})] is [(${holidays.size})]</s>
+        [# th:each="holiday : ${holidays}"]
+            <s>[(${holiday.name})] -
+            [(${holiday.monthDay.dayOfMonth})] [(${holiday.monthDay.month})]
+                which is [(${holiday.monthDay.atYear(currentYear).dayOfWeek})]</s>
+        [/]
+    [/]
+</speak>

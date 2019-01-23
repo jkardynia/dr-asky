@@ -33,4 +33,12 @@ public class IntentClientException extends RuntimeException {
                 "INTENT_CLIENT_ERROR_LOCATION_NOT_SET",
                 params);
     }
+
+    public static IntentClientException holidaysNotSupported(String message, String country){
+        Map<String, String> params = new HashMap<>();
+        params.put("country", country);
+
+        return new IntentClientException(message, "INTENT_CLIENT_ERROR_HOLIDAYS_NOT_SUPPORTED",
+                params);
+    }
 }

@@ -28,7 +28,7 @@ enum PolishHoliday implements Holiday {
     private String name;
     private Supplier<MonthDay> monthDaySupplier;
 
-    public MonthDay getMothDay(){
+    public MonthDay getMonthDay(){
         return monthDaySupplier.get();
     }
 }

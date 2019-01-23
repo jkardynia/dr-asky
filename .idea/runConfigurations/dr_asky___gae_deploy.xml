@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="dr-asky - gcloud deploy" type="MavenRunConfiguration" factoryName="Maven">
+  <configuration default="false" name="dr-asky - gae deploy" type="MavenRunConfiguration" factoryName="Maven">
     <MavenSettings>
       <option name="myGeneralSettings" />
       <option name="myRunnerSettings" />
@@ -11,7 +11,7 @@
           <option name="goals">
             <list>
               <option value="appengine:deploy" />
-              <option value="-Pgcloud" />
+              <option value="-Pgae" />
               <option value="-DskipTests=true" />
             </list>
           </option>

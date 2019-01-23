@@ -11,7 +11,7 @@
     <groupId>com.jkgroup</groupId>
     <artifactId>dr-asky</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>dr-asky</name>
 
     <properties>
@@ -156,9 +156,15 @@
 
     <profiles>
         <profile>
-            <id>gcloud</id>
+            <id>gae</id>
             <properties>
-                <mvn.profiles.active>gcloud</mvn.profiles.active>
+                <mvn.profiles.active>gae</mvn.profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>gce</id>
+            <properties>
+                <mvn.profiles.active>gce</mvn.profiles.active>
             </properties>
         </profile>
     </profiles>

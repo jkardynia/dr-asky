@@ -40,7 +40,7 @@ public class Holidays {
         validateIfLocaleIsSupported(locale);
 
         return holidays.get(locale).stream()
-                .filter(day -> day.getMothDay().equals(MonthDay.of(date.getMonth(), date.getDayOfMonth())))
+                .filter(day -> day.getMonthDay().equals(MonthDay.of(date.getMonth(), date.getDayOfMonth())))
                 .findFirst();
     }
 
@@ -56,7 +56,7 @@ public class Holidays {
         validateIfLocaleIsSupported(locale);
 
         return holidays.get(locale).stream()
-                .filter(day -> day.getMothDay().getMonth().equals(month))
+                .filter(day -> day.getMonthDay().getMonth().equals(month))
                 .collect(Collectors.toList());
     }
 
@@ -67,6 +67,6 @@ public class Holidays {
     }
 
     private Predicate<Holiday> isBetween(MonthDay from, MonthDay to) {
-        return day -> day.getMothDay().equals(from) || day.getMothDay().equals(to) || (day.getMothDay().isAfter(from) && day.getMothDay().isBefore(to));
+        return day -> day.getMonthDay().equals(from) || day.getMonthDay().equals(to) || (day.getMonthDay().isAfter(from) && day.getMonthDay().isBefore(to));
     }
 }

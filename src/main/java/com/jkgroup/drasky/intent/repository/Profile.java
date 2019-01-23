@@ -19,4 +19,6 @@ public class Profile {
     private Location homeLocation;
 
     private String timezone = "UTC";
+
+    private String locale = "en-US";
 }

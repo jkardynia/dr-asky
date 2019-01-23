@@ -16,6 +16,6 @@ public class PolishHolidayRegistry implements HolidaysRegistry {
 
     @Override
     public Locale getLocale() {
-        return Locale.forLanguageTag("pl-PL");
+        return Locale.forLanguageTag("pl-PL"); //todo should validate for correct locales
     }
 }

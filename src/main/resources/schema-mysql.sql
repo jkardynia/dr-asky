@@ -41,6 +41,7 @@
         username varchar(255),
         home_location_id integer,
         timezone varchar(255),
+        locale varchar(255),
         primary key (id)
     ) engine=InnoDB;
 

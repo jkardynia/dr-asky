@@ -4,6 +4,6 @@ import java.time.MonthDay;
 
 public interface Holiday {
 
-    MonthDay getMothDay();
+    MonthDay getMonthDay();
     String getName();
 }
