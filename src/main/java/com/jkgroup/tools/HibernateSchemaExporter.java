@@ -19,7 +19,7 @@ public final class HibernateSchemaExporter {
 
     private static final Logger LOG = LoggerFactory.getLogger(HibernateSchemaExporter.class);
     private static final String OUTPUT_FILE = "schema.sql";
-    private static final String DIALECT = "org.hibernate.dialect.H2Dialect"; // org.hibernate.dialect.MySQL5InnoDBDialect
+    private static final String DIALECT = "org.hibernate.dialect.MySQL5InnoDBDialect";//"org.hibernate.dialect.H2Dialect";
 
     private List<String> entityPackages;
 

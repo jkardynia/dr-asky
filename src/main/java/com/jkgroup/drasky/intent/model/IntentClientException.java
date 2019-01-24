@@ -41,4 +41,11 @@ public class IntentClientException extends RuntimeException {
         return new IntentClientException(message, "INTENT_CLIENT_ERROR_HOLIDAYS_NOT_SUPPORTED",
                 params);
     }
+
+    public static IntentClientException from(ExternalServiceException e){
+        Map<String, String> params = new HashMap<>();
+        params.put("serviceName", e.getServiceName());
+
+        return new IntentClientException(e.getMessage(), "EXTERNAL_SERVICE_EXCEPTION", params);
+    }
 }

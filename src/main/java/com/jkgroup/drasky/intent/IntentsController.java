@@ -2,6 +2,7 @@ package com.jkgroup.drasky.intent;
 
 import com.jkgroup.drasky.intent.dto.DialogFlowRequest;
 import com.jkgroup.drasky.intent.dto.DialogFlowResponse;
+import com.jkgroup.drasky.intent.model.ExternalServiceException;
 import com.jkgroup.drasky.intent.model.IntentActionRouter;
 import com.jkgroup.drasky.intent.model.IntentClientException;
 import lombok.extern.slf4j.Slf4j;
@@ -35,16 +36,22 @@ public class IntentsController {
         try {
             return intentActionRouter.executeAction(request);
         }catch(IntentClientException e){
-            log.error(e.getMessage(), e);
-
-            return DialogFlowResponse
-                    .builder()
-                    .fulfillmentText(messageSource.getMessage(e.getTranslationKey(),
-                            e.getParameters().values().toArray(),
-                            getGenericErrorMessage(locale),
-                            locale))
-                    .build();
+            return handleIntentClientException(locale, e);
+        }catch(ExternalServiceException e){
+            return handleIntentClientException(locale, IntentClientException.from(e));
         }
+    }
+
+    private DialogFlowResponse handleIntentClientException(Locale locale, IntentClientException e) {
+        log.error(e.getMessage(), e);
+
+        return DialogFlowResponse
+                .builder()
+                .fulfillmentText(messageSource.getMessage(e.getTranslationKey(),
+                        e.getParameters().values().toArray(),
+                        getGenericErrorMessage(locale),
+                        locale))
+                .build();
     }
 
     private String getGenericErrorMessage(Locale locale){

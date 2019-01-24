@@ -1,5 +1,8 @@
 package com.jkgroup.drasky.intent.model;
 
+import lombok.Getter;
+
+@Getter
 public class ExternalServiceException extends RuntimeException {
     private String serviceName;
 

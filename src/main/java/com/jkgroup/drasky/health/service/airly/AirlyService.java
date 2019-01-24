@@ -28,7 +28,7 @@ public class AirlyService {
     @Cacheable
     public AirQuality checkAirQuality(String lat, String lng){
         try {
-            Response<AirQuality> response = client.nearestMeasurements(lat, lng, "1.3").execute();
+            Response<AirQuality> response = client.nearestMeasurements(lat, lng, "1.0").execute();
 
             if(!response.isSuccessful()){
                 throw new AirlyServiceException("Response is not successful");
