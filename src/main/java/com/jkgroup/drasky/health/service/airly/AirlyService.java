@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -27,9 +28,15 @@ public class AirlyService {
     @Cacheable
     public AirQuality checkAirQuality(String lat, String lng){
         try {
-            return client.nearestMeasurements(lat, lng, "1").execute().body();
+            Response<AirQuality> response = client.nearestMeasurements(lat, lng, "1.3").execute();
+
+            if(!response.isSuccessful()){
+                throw new AirlyServiceException("Response is not successful");
+            }
+
+            return response.body();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new AirlyServiceException("Response is not successful", e);
         }
     }
 }
