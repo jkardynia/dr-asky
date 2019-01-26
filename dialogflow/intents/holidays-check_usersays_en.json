@@ -1,0 +1,128 @@
+[
+  {
+    "id": "f8b8a92d-6c14-4f46-b1d9-060bb71bd684",
+    "data": [
+      {
+        "text": "How many days of is in ",
+        "userDefined": false
+      },
+      {
+        "text": "month",
+        "alias": "month",
+        "meta": "@sys.date-period",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1548420838
+  },
+  {
+    "id": "19130282-b1d2-4e9b-8fe6-7832f112c1de",
+    "data": [
+      {
+        "text": "How many vacation days is in ",
+        "userDefined": false
+      },
+      {
+        "text": "month",
+        "alias": "month",
+        "meta": "@sys.date-period",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1548420838
+  },
+  {
+    "id": "956bc1b5-6efd-4ecd-a51a-75cba6263d62",
+    "data": [
+      {
+        "text": "What are the days off in ",
+        "userDefined": false
+      },
+      {
+        "text": "month",
+        "alias": "month",
+        "meta": "@sys.date-period",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1548420838
+  },
+  {
+    "id": "d184ee29-c864-4536-894e-455136065382",
+    "data": [
+      {
+        "text": "Vacation days in ",
+        "userDefined": false
+      },
+      {
+        "text": "month",
+        "alias": "month",
+        "meta": "@sys.date-period",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1548420380
+  },
+  {
+    "id": "c7a54798-0375-48d7-9f5c-9e8ddd9f9f9d",
+    "data": [
+      {
+        "text": "Days off in ",
+        "userDefined": false
+      },
+      {
+        "text": "month",
+        "alias": "month",
+        "meta": "@sys.date-period",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1548420380
+  },
+  {
+    "id": "4e9e6c49-2448-4d3f-818a-a8e431d3ad84",
+    "data": [
+      {
+        "text": "How many holidays is in ",
+        "userDefined": false
+      },
+      {
+        "text": "month",
+        "alias": "month",
+        "meta": "@sys.date-period",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 1,
+    "updated": 1548420380
+  },
+  {
+    "id": "2d4effd3-b5a8-417d-bc30-7fbeba72211d",
+    "data": [
+      {
+        "text": "Holidays in ",
+        "userDefined": false
+      },
+      {
+        "text": "month",
+        "alias": "month",
+        "meta": "@sys.date-period",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1548185160
+  }
+]

@@ -13,7 +13,12 @@
         {
           "type": 0,
           "lang": "en",
-          "speech": "Yes?"
+          "speech": [
+            "Hi, I am ready to help you!",
+            "Hello, do you need help?",
+            "Hi, do you need some information?",
+            "Hey, how are you today, how can I help you?"
+          ]
         }
       ],
       "defaultResponsePlatforms": {},
@@ -23,7 +28,7 @@
   "priority": 500000,
   "webhookUsed": false,
   "webhookForSlotFilling": false,
-  "lastUpdate": 1544978825,
+  "lastUpdate": 1546536489,
   "fallbackIntent": false,
   "events": [
     {

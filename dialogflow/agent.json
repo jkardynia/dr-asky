@@ -26,7 +26,7 @@
   },
   "defaultTimezone": "Europe/Madrid",
   "webhook": {
-    "url": "https://drasky-225017.appspot.com/dr-asky/agent",
+    "url": "http://104.196.211.90:8080/dr-asky/agent",
     "username": "admin",
     "headers": {
       "": ""

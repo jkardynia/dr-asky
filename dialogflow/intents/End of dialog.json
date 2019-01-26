@@ -13,7 +13,7 @@
         {
           "type": 0,
           "lang": "en",
-          "speech": "Bye"
+          "speech": "No problem! Bye bye!"
         }
       ],
       "defaultResponsePlatforms": {},
@@ -23,7 +23,7 @@
   "priority": 500000,
   "webhookUsed": false,
   "webhookForSlotFilling": false,
-  "lastUpdate": 1544979183,
+  "lastUpdate": 1546536708,
   "fallbackIntent": false,
   "events": []
 }

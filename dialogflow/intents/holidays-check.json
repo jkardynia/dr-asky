@@ -1,20 +1,20 @@
 {
-  "id": "4390311e-8212-412a-b719-d992622f3820",
-  "name": "Air quality",
+  "id": "290973e4-dc65-44c1-8c81-f2f40909f9b1",
+  "name": "holidays-check",
   "auto": true,
   "contexts": [],
   "responses": [
     {
       "resetContexts": false,
-      "action": "air_quality",
+      "action": "holidays-check",
       "affectedContexts": [],
       "parameters": [
         {
-          "id": "b45a4f64-2027-4859-a53d-bee811715e07",
-          "required": true,
-          "dataType": "@sys.any",
-          "name": "location",
-          "value": "$location",
+          "id": "93c4c73a-04cf-4050-b533-a8fdced6f74b",
+          "required": false,
+          "dataType": "@sys.date-period",
+          "name": "month",
+          "value": "$month",
           "isList": false
         }
       ],
@@ -22,7 +22,7 @@
         {
           "type": 0,
           "lang": "en",
-          "speech": "Please repeat."
+          "speech": []
         }
       ],
       "defaultResponsePlatforms": {},
@@ -32,7 +32,7 @@
   "priority": 500000,
   "webhookUsed": true,
   "webhookForSlotFilling": false,
-  "lastUpdate": 1546536095,
+  "lastUpdate": 1548420838,
   "fallbackIntent": false,
   "events": []
 }
