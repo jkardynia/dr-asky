@@ -1,4 +1,4 @@
-package com.jkgroup.drasky.commuting.bus;
+package com.jkgroup.drasky.commuting.bus.mpkcracow.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,8 +10,8 @@ import java.util.List;
 @AllArgsConstructor
 public class TimeTable {
     private String lineNumber;
-    private String direction;
-    private String stopName;
+    private Direction direction;
+    private BusStop stopName;
     private List<LocalTime> workday;
     private List<LocalTime> saturday;
     private List<LocalTime> holiday;
