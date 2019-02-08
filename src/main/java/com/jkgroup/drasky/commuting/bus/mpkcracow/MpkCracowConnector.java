@@ -4,10 +4,14 @@ import com.jkgroup.drasky.commuting.bus.BusClientException;
 import com.jkgroup.drasky.commuting.bus.mpkcracow.model.BusStop;
 import com.jkgroup.drasky.commuting.bus.mpkcracow.model.Direction;
 import com.jkgroup.drasky.commuting.bus.mpkcracow.model.Page;
+import com.jkgroup.drasky.intent.AppConfiguration;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,7 +21,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@CacheConfig(cacheNames = MpkCracowConnector.CACHE_NAME, cacheManager = AppConfiguration.NOT_EXPIRING_CACHE_BEAN_NAME)
+@Slf4j
 public class MpkCracowConnector {
+
+    public static final String CACHE_NAME = "MpkCracowConnector-cache";
 
     @Autowired
     public MpkCracowConnector(@Value("${bus-time-table.cracow.base-url}") String baseUrl) {
@@ -28,7 +36,6 @@ public class MpkCracowConnector {
         return gotoMpkBusPage(busNumber, Direction.DEFAULT, BusStop.DEFAULT);
     }
 
-    // todo cache that, and schedule refreshing cache at 2 a.m. for day buses and at 10p.m. for night buses
     public Page gotoMpkBusPage(String busNumber, Direction direction, BusStop busStop){
         try {
             String url = resolveUrl(busNumber, direction, busStop);
@@ -43,6 +50,7 @@ public class MpkCracowConnector {
         }
     }
 
+    @Cacheable
     public Page gotoMpkBusPage(String busNumber, String direction, String stop) {
         Direction dir = gotoMpkWelcomeBusPage(busNumber).getDirectionByName(direction)
                 .orElseThrow(() -> BusClientException.busDirectionNotFound(busNumber, direction));
@@ -59,8 +67,8 @@ public class MpkCracowConnector {
 
         return ConnectionSettings.getUrl(busNumber, direction.getId(), busStop.getId());
     }
-
     static class ConnectionSettings{
+
         private static final String TIME_TABLE_PATH_PATTERN = "?linia={line_nr}__{direction_nr}__{stop_nr}";
         private static final String TIME_TABLE_DEFAULT_STOP_PATH_PATTERN = "?linia={line_nr}__{direction_nr}";
 

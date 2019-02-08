@@ -1,5 +1,6 @@
 package com.jkgroup.drasky.health.service.airly;
 
+import com.jkgroup.drasky.intent.AppConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.CacheConfig;
@@ -16,8 +17,10 @@ import java.io.IOException;
 import static com.jkgroup.drasky.configuration.HttpClientsConfiguration.AIRLY_CLIENT_BEAN_NAME;
 
 @Service
-@CacheConfig(cacheNames = "AirlyService")
+@CacheConfig(cacheNames = AirlyService.CACHE_NAME, cacheManager = AppConfiguration.EXPIRING_CACHE_BEAN_NAME)
 public class AirlyService {
+    public static final String CACHE_NAME = "AirlyService-cache";
+
     private AirlyClient client;
 
     @Autowired

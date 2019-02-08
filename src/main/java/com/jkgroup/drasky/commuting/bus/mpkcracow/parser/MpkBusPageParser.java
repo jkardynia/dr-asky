@@ -1,5 +1,6 @@
 package com.jkgroup.drasky.commuting.bus.mpkcracow.parser;
 
+import com.google.common.collect.Lists;
 import org.jsoup.nodes.Document;
 
 import java.time.LocalTime;
@@ -26,7 +27,11 @@ public class MpkBusPageParser {
     }
 
     private static List<String> findAllColumns(Document document) {
-        return document.select("td:containsOwn(" + Column.HOUR.getColumnName() + ")").first().parent().children().eachText();
+        try {
+            return document.select("td:containsOwn(" + Column.HOUR.getColumnName() + ")").first().parent().children().eachText();
+        }catch (NullPointerException e){
+            return Lists.newArrayList();
+        }
     }
 
     private static List<Map<Column, String>> getTableRows(Document document, List<String> columnsNames) {
@@ -76,24 +81,33 @@ public class MpkBusPageParser {
     }
 
     public static Optional<String> getDirectionId(Document document, String direction) {
-        String href = document
-                .select("a:contains("+ direction +")")
-                .attr("href");
+        try {
+            String href = document
+                    .select("a:contains(" + direction + ")")
+                    .attr("href");
 
-        String[] hrefParts = href.split("linia=");
+            String[] hrefParts = href.split("linia=");
 
-        String[] lineAndDirection = hrefParts[1].split("__");
-        return Optional.ofNullable(lineAndDirection[1]); //// todo check if there will be null or ""
+            String[] lineAndDirection = hrefParts[1].split("__");
+
+            return Optional.ofNullable(lineAndDirection[1]); //// todo check if there will be null or ""
+        }catch (NullPointerException e){
+            return Optional.empty();
+        }
     }
 
     public static Optional<String> getStopId(Document document, String stopName) {
-        String href = document
-                .select("a:contains("+ stopName +")")
-                .attr("href");
+        try {
+            String href = document
+                    .select("a:contains(" + stopName + ")")
+                    .attr("href");
 
-        String[] hrefParts = href.split("linia=");
+            String[] hrefParts = href.split("linia=");
 
-        String[] lineAndDirectionAndStop = hrefParts[1].split("__");
-        return Optional.ofNullable(lineAndDirectionAndStop[2]); // todo check if there will be null or ""
+            String[] lineAndDirectionAndStop = hrefParts[1].split("__");
+            return Optional.ofNullable(lineAndDirectionAndStop[2]); // todo check if there will be null or ""
+        }catch (NullPointerException e){
+            return Optional.empty();
+        }
     }
 }

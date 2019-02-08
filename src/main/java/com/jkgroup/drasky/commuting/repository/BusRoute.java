@@ -3,11 +3,13 @@ package com.jkgroup.drasky.commuting.repository;
 import com.jkgroup.drasky.intent.repository.Location;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
+@ToString(exclude = {"from", "to"})
 @Entity
 public class BusRoute {
     @Id

@@ -26,6 +26,7 @@ public class BusCheckingCracowService {
     private Holidays holidays;
 
     private static final Locale LOCALE = Locale.forLanguageTag("pl-PL");
+    public static final String TIME_ZONE = "Europe/Warsaw";
 
     @Autowired
     public BusCheckingCracowService(MpkCracowConnector mpkCracowConnector, Holidays holidays){

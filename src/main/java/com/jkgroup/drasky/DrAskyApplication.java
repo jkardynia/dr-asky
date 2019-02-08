@@ -3,8 +3,10 @@ package com.jkgroup.drasky;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration;
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,8 +14,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Locale;
 
-@SpringBootApplication(exclude = {ThymeleafAutoConfiguration.class})
+@SpringBootApplication(exclude = {ThymeleafAutoConfiguration.class, CacheAutoConfiguration.class})
 @EnableCaching
+@EnableScheduling
 @RestController
 @Slf4j
 public class DrAskyApplication {
