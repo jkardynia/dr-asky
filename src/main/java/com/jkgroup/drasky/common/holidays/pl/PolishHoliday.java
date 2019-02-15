@@ -1,15 +1,18 @@
 package com.jkgroup.drasky.common.holidays.pl;
 
+import com.google.common.collect.Lists;
 import com.jkgroup.drasky.common.holidays.Holiday;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.MonthDay;
+import java.time.Year;
+import java.util.List;
 import java.util.function.Supplier;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-enum PolishHoliday implements Holiday {
+public enum PolishHoliday implements Holiday {
     NEW_YEAR("New Year's Day", () -> MonthDay.of(1, 1)),
     EPIPHANY("Epiphany",() -> MonthDay.of(1, 6)),
     EASTER_SUNDAY("Easter Sunday", new EasterSundaySupplier()),
@@ -30,5 +33,9 @@ enum PolishHoliday implements Holiday {
 
     public MonthDay getMonthDay(){
         return monthDaySupplier.get();
+    }
+
+    public static List<Holiday> valuesInYear(Year year){
+        return  Lists.newArrayList(PolishHoliday.values()); // todo support year
     }
 }

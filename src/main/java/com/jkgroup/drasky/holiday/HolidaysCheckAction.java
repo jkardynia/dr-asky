@@ -20,6 +20,7 @@ import org.thymeleaf.context.Context;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -57,7 +58,7 @@ public class HolidaysCheckAction implements Action {
         Month month = month(request.getQueryResult().getParameters())
                 .orElse(LocalDate.now().getMonth());
 
-        List<Holiday> holidaysInMonth = getHolidays(month);
+        List<Holiday> holidaysInMonth = getHolidays(month, Year.now());
 
         return DialogFlowResponse
                 .builder()
@@ -75,12 +76,12 @@ public class HolidaysCheckAction implements Action {
         return templateGenerator.parse("ssml-templates/holidays-check.ssml", context);
     }
 
-    private List<Holiday> getHolidays(Month month){
+    private List<Holiday> getHolidays(Month month, Year year){
         Profile profile = getDefaultProfile();
         Locale locale = Locale.forLanguageTag(profile.getLocale());
 
         try{
-            return holidays.getAllIn(locale, month);
+            return holidays.getAllIn(locale, YearMonth.of(year.getValue(), month));
 
         }catch (HolidayException e){
             throw IntentClientException.holidaysNotSupported(e.getMessage(), locale.getCountry());

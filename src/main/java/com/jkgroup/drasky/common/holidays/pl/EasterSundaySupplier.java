@@ -6,9 +6,19 @@ import java.time.Year;
 import java.util.function.Supplier;
 
 public class EasterSundaySupplier implements Supplier<MonthDay> {
+
+    private Year year;
+
+    public EasterSundaySupplier(){
+    }
+
+    public EasterSundaySupplier(Year year){
+        this.year = year;
+    }
+
     @Override
     public MonthDay get() {
-        int year = Year.now().getValue();
+        int year = getYear().getValue();
         int yearMod19 = year % 19;
         int numberOfCenturies = year / 100;
         int numberOfYearsInCurrentCentury = year % 100;
@@ -24,5 +34,13 @@ public class EasterSundaySupplier implements Supplier<MonthDay> {
         int day = (calculation2 - calculation3 + calculation4 + month + 19) % 32;
 
         return MonthDay.of(month, day);
+    }
+
+    private Year getYear(){
+        if(this.year == null){
+            return Year.now();
+        }
+
+        return this.year;
     }
 }
