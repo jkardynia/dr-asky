@@ -1,0 +1,37 @@
+{
+  "responseId": "01f078c6-1598-4281-ac26-6f2d19e56a26",
+  "queryResult": {
+    "queryText": "bus to office after 2 hours",
+    "action": "find_bus",
+    "parameters": {
+      "destination": "office",
+      "time": "",
+      "duration": {
+        "amount": 2,
+        "unit": "h"
+      },
+      "date": ""
+    },
+    "allRequiredParamsPresent": true,
+    "fulfillmentText": "Please repeat.",
+    "fulfillmentMessages": [
+      {
+        "text": {
+          "text": [
+            "Please repeat."
+          ]
+        }
+      }
+    ],
+    "intent": {
+      "name": "projects/drasky-225017/agent/intents/b17cc4c1-92ce-4ba5-bdf5-36b42152ece1",
+      "displayName": "Find bus"
+    },
+    "intentDetectionConfidence": 1,
+    "languageCode": "en"
+  },
+  "originalDetectIntentRequest": {
+    "payload": {}
+  },
+  "session": "projects/drasky-225017/agent/sessions/0d38b150-29d1-24ed-93f0-e0203dae9cba"
+}

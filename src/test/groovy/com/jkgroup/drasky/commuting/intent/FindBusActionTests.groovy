@@ -11,8 +11,10 @@ import com.jkgroup.drasky.intent.repository.ProfileRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.TestPropertySource
 import spock.lang.Specification
 
+import java.time.Clock
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -23,7 +25,8 @@ import static com.jkgroup.drasky.fixtures.ProfileFactory.createProfileWithHomeLo
 import static com.jkgroup.drasky.fixtures.ProfileFactory.createSimpleLocation
 
 @SpringBootTest
-@ActiveProfiles("test")
+@ActiveProfiles("mock")
+@TestPropertySource(properties = ["spring.datasource.data="])
 class FindBusActionTests extends Specification{
 
     @Autowired private BusLocationsRepository busLocationsRepository
@@ -39,7 +42,7 @@ class FindBusActionTests extends Specification{
     def "should find a bus when date and time parameters specified"(){
         given:
         def profileName = "default"
-        def action = new FindBusAction(busLocationsRepository, profileRepository, busCheckingService, templateGenerator, profileName)
+        def action = new FindBusAction(busLocationsRepository, profileRepository, busCheckingService, templateGenerator, Clock.systemDefaultZone(), profileName)
         def request = requestWithParams(['destination': 'home',
                                          'date'       : '2018-10-10T00:00:00+01:00',
                                          'time'       : '2018-10-10T13:30:20+01:00'])

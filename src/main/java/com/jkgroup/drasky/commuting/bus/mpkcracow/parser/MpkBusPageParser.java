@@ -1,6 +1,7 @@
 package com.jkgroup.drasky.commuting.bus.mpkcracow.parser;
 
 import com.google.common.collect.Lists;
+import org.apache.logging.log4j.util.Strings;
 import org.jsoup.nodes.Document;
 
 import java.time.LocalTime;
@@ -86,11 +87,23 @@ public class MpkBusPageParser {
                     .select("a:contains(" + direction + ")")
                     .attr("href");
 
+            if(Strings.isBlank(href)){
+                return Optional.empty();
+            }
+
             String[] hrefParts = href.split("linia=");
+
+            if(hrefParts.length < 2){
+                return Optional.empty();
+            }
 
             String[] lineAndDirection = hrefParts[1].split("__");
 
-            return Optional.ofNullable(lineAndDirection[1]); //// todo check if there will be null or ""
+            if(lineAndDirection.length < 2){
+                return Optional.empty();
+            }
+
+            return Optional.ofNullable(lineAndDirection[1]);
         }catch (NullPointerException e){
             return Optional.empty();
         }
@@ -102,10 +115,23 @@ public class MpkBusPageParser {
                     .select("a:contains(" + stopName + ")")
                     .attr("href");
 
+            if(Strings.isBlank(href)){
+                return Optional.empty();
+            }
+
             String[] hrefParts = href.split("linia=");
 
+            if(hrefParts.length < 2){
+                return Optional.empty();
+            }
+
             String[] lineAndDirectionAndStop = hrefParts[1].split("__");
-            return Optional.ofNullable(lineAndDirectionAndStop[2]); // todo check if there will be null or ""
+
+            if(lineAndDirectionAndStop.length < 3){
+                return Optional.empty();
+            }
+
+            return Optional.ofNullable(lineAndDirectionAndStop[2]);
         }catch (NullPointerException e){
             return Optional.empty();
         }

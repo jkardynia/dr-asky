@@ -34,7 +34,7 @@ class CalendarUtilTests extends Specification{
         def epsilon = 10 // seconds before and after a date
 
         when:
-        def result = CalendarUtil.getLocalDateTimeFromNowOrDefault(duration, date, time)
+        def result = CalendarUtil.getLocalDateTimeFromNowOrDefault(duration, date, time, Clock.systemDefaultZone())
 
         then:
         result <= expectedResult.plusSeconds(epsilon)

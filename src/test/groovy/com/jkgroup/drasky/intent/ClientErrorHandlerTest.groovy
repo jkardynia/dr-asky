@@ -8,7 +8,7 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 @SpringBootTest
-@ActiveProfiles("test")
+@ActiveProfiles("mock")
 class ClientErrorHandlerTest extends Specification{
     @Autowired
     ClientErrorHandler clientErrorHandler
@@ -18,14 +18,14 @@ class ClientErrorHandlerTest extends Specification{
         def exception = new IntentClientException("some error", "SOME_ERROR_TRANSLATION_KEY", [testParamName: "testParam"])
 
         when:
-        def result = clientErrorHandler.handleIntentClientException(Locale.forLanguageTag("test"), exception)
+        def result = clientErrorHandler.handleIntentClientException(Locale.forLanguageTag("mock"), exception)
 
         then:
         result.getFulfillmentText() == "My test message with testParam"
     }
 
     @Unroll
-    def "should get default error message locale #locale"(){
+    def "should get default error message locale=#locale"(){
         given:
         def exception = new IntentClientException("some error", "NOT_EXISTING_TRANSLATION_KEY", [:])
 

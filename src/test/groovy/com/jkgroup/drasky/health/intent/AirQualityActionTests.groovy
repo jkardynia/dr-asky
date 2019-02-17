@@ -23,7 +23,7 @@ import static com.jkgroup.drasky.fixtures.ProfileFactory.createProfileWithHomeLo
 import static com.jkgroup.drasky.fixtures.ProfileFactory.createSimpleLocation
 
 @SpringBootTest
-@ActiveProfiles("test")
+@ActiveProfiles("mock")
 class AirQualityActionTests extends Specification implements ClearDbTrait{
 
     @Autowired private AirQualityLocationsRepository airQualityLocationsRepository

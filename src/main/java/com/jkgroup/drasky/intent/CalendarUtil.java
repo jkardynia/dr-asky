@@ -17,11 +17,11 @@ public class CalendarUtil {
         return nextSunday.equals(monthLastSunday);
     }
 
-    public static ZonedDateTime getLocalDateTimeFromNowOrDefault(Duration duration, LocalDate date, LocalTime time) {
+    public static ZonedDateTime getLocalDateTimeFromNowOrDefault(Duration duration, LocalDate date, LocalTime time, Clock clock) {
         return Optional.ofNullable(duration)
-                .map(it -> ZonedDateTime.now().plusSeconds(it.getSeconds()))
-                .orElse(ZonedDateTime.of(Optional.ofNullable(date).orElse(LocalDate.now()),
-                        Optional.ofNullable(time).orElse(LocalTime.now()),
+                .map(it -> ZonedDateTime.now(clock).plusSeconds(it.getSeconds()))
+                .orElse(ZonedDateTime.of(Optional.ofNullable(date).orElse(LocalDate.now(clock)),
+                        Optional.ofNullable(time).orElse(LocalTime.now(clock)),
                         ZoneId.systemDefault()));
     }
 

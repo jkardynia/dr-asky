@@ -15,7 +15,6 @@ import java.util.Locale;
 
 @RestController
 @RequestMapping("dr-asky")
-
 public class IntentsController {
 
     private IntentActionRouter intentActionRouter;

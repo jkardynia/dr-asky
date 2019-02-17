@@ -38,6 +38,7 @@ public class FindBusAction implements Action {
     private ProfileRepository profileRepository;
     private BusCheckingService busCheckingService;
     private TemplateGenerator templateGenerator;
+    private Clock clock;
     private String defaultProfile;
 
     @Autowired
@@ -45,11 +46,13 @@ public class FindBusAction implements Action {
                          ProfileRepository profileRepository,
                          BusCheckingService busCheckingService,
                          TemplateGenerator templateGenerator,
+                         Clock clock,
                          @Value("${dr-asky.default-profile}") String defaultProfile){
         this.busLocationsRepository = busLocationsRepository;
         this.profileRepository = profileRepository;
         this.busCheckingService = busCheckingService;
         this.templateGenerator = templateGenerator;
+        this.clock = clock;
         this.defaultProfile = defaultProfile;
     }
 
@@ -82,7 +85,8 @@ public class FindBusAction implements Action {
         return getLocalDateTimeFromNowOrDefault(
                 duration(request.getQueryResult().getParameters()).orElse(null),
                 date(request.getQueryResult().getParameters()).orElse(null),
-                time(request.getQueryResult().getParameters()).orElse(null)
+                time(request.getQueryResult().getParameters()).orElse(null),
+                clock
         )
         .withZoneSameInstant(ZoneId.of(timeZone))
         .toLocalDateTime();
